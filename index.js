@@ -29,7 +29,7 @@ export const reducer = (state = {}, action = {}) => {
   }
 }
 
-export const createApi = (store) => ({
+export const createStoreApi = (store) => ({
   select: (selector) => selector(store.getState()),
   get: (path, defautValue) => get(store.getState(), path, defautValue),
   set: (path, payload) => new Promise((resolve, reject) => {
