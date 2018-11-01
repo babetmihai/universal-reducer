@@ -22,11 +22,11 @@ storeApi.set('parent.child1.child2', '123')
 console.log(store.getState())
 /*
 {
-	parent: {
-		child1: {
-			child2: '123'
-		}
-	}
+  parent: {
+    child1: {
+      child2: '123'
+    }
+  }
 }
 */
 
@@ -34,12 +34,12 @@ storeApi.update('parent.child1.child3', '234')
 console.log(store.getState())
 /*
 {
-	parent: {
-		child1: {
-			child2: '123',
-			child3: '234
-		}
-	}
+  parent: {
+    child1: {
+      child2: '123',
+      child3: '234
+    }
+  }
 }
 */
 
@@ -47,11 +47,11 @@ storeApi.delete('parent.child1.child2')
 console.log(store.getState())
 /*
 {
-	parent: {
-		child1: {
-			child3: '234
-		}
-	}
+  parent: {
+    child1: {
+      child3: '234
+    }
+  }
 }
 */
 
@@ -66,9 +66,9 @@ const child = storeApi.select(selector)
 console.log(child)
 /*
 {
-	child1: {
-		child3: '234'
-	}
+  child1: {
+    child3: '234'
+  }
 }
 */
 ```
