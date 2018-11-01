@@ -1,6 +1,6 @@
 {
   "name": "universal-reducer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Reducer that can update the store using the _.set api",
   "main": "dist/index",
   "scripts": {
