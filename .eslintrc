@@ -1,0 +1,58 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "env": {
+    "commonjs": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "classes": true,
+      "legacyDecorators": true
+    }
+  },
+  "rules": {
+    "no-multi-spaces": "warn",
+    "semi": ["warn", "never"],
+    "padded-blocks": 0,
+    "comma-dangle": ["warn"],
+    "object-curly-spacing": ["warn", "always"],
+    "brace-style": "warn",
+    "no-unused-vars": ["warn"],
+    "max-len": ["warn", 120, 4, { "ignoreComments": true }],
+    "space-infix-ops": "warn",
+    "no-trailing-spaces": "warn",
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "single"],
+    "no-extra-semi": "warn",
+    "no-extra-boolean-cast": "warn",
+    "no-console": "warn",
+    "key-spacing": ["warn", {"beforeColon": false, "afterColon": true}],
+    "comma-spacing": ["warn", {"before": false, "after": true}],
+    "semi-spacing": ["warn", {"before": false, "after": true }],
+    "space-before-function-paren": ["warn", {
+      "asyncArrow": "always",
+      "named": "never",
+      "anonymous": "never"
+      }],
+    "space-before-blocks": ["warn"],
+    "no-multiple-empty-lines": ["warn", {"max": 1, "maxEOF": 1, "maxBOF": 1}],
+    "spaced-comment": ["warn", "always"],
+    "jsx-quotes": ["warn", "prefer-double"]
+  },
+  "globals": {
+    "describe": true,
+    "it": true,
+    "onmessage": true,
+    "postMessage": true,
+    "Promise": true,
+    "FileReaderSync": true,
+    "FormData": true,
+    "AbortController": true
+  }
+}
