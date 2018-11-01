@@ -1,12 +1,11 @@
 {
   "name": "universal-reducer",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Reducer that can update the store using the _.set api",
   "main": "dist/index",
   "scripts": {
     "test": "npm run prepublish && mocha index.spec.js",
-    "prepublish": "babel index.js --source-maps --out-dir dist",
-    "postpublish": "rm -Rf dist"
+    "prepublish": "babel index.js --source-maps --out-dir dist"
   },
   "keywords": [
     "redux",
@@ -17,18 +16,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://git.metrosystems.net/mihai.babet/universal-reducer"
+    "url": "https://github.com/babetmihai/universal-reducer"
   },
   "author": "Mihai Babet",
   "license": "MIT",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^5.8.0",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-preset-env": "^1.7.0",
+    "eslint": "^5.8.0",
     "mocha": "^5.2.0"
   },
   "engines": {
