@@ -5,10 +5,10 @@ const reducer = ({ state, path, payload }) => {
   const keys = path.split('.').filter(Boolean)
   switch (true) {
     case (keys.length === 0): return payload
-    case (keys.length === 1): return omitBy({
+    case (keys.length === 1): return _.omitBy({
       ...state,
       [keys[0]]: payload
-    }, isNil)
+    }, _.isNil)
     default: return {
       ...state,
       [keys[0]]: reducer({
@@ -22,13 +22,13 @@ const reducer = ({ state, path, payload }) => {
 
 export const set = (path, payload) => {
   state = reducer({ state, path, payload })
-  listeners.forEach((listener) => listener(state))
+  listeners.forEach((listener) => listener())
   return state
 }
 
 export const update = (path, payload) => {
   const value = _.get(state, path)
-   if (isObject(value) && isObject(payload)) {
+   if (_.isObject(value) && _.isObject(payload)) {
     return set(path, { ...value, ...payload })
   } else {
     return set(path, payload)
@@ -45,9 +45,8 @@ const connect = (props) => (Component) => {
     
     constructor(props) {
       super(props)
-      this.state= state
       this.index = listeners.length
-      listeners.push(this.setState)
+      listeners.push(this.forceUpdate)
     }
 
     componentWillUnmount() {
