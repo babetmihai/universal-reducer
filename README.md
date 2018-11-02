@@ -30,8 +30,11 @@ export default store
 import store, { storeApi } from 'store'
 
 console.log(store.getState()) // {}
-
+```
+```
 storeApi.set('parent.child1.child2', '123')
+```
+```
 console.log(store.getState())
 /*
 {
@@ -46,6 +49,8 @@ console.log(store.getState())
 ###### Update
 ```
 storeApi.update('parent.child1.child3', '234')
+```
+```
 console.log(store.getState())
 /*
 {
@@ -61,6 +66,8 @@ console.log(store.getState())
 ###### Delete
 ```
 storeApi.delete('parent.child1.child2')
+```
+```
 console.log(store.getState())
 /*
 {
@@ -76,7 +83,8 @@ console.log(store.getState())
 ```
 const child = storeApi.get('parent.child1.child3')
 console.log(child)  // 234
-
+```
+```
 const child = storeApi.get('parent.child4', 'defaultValue')
 console.log(child)  // defaultValue
 ```
@@ -84,6 +92,8 @@ console.log(child)  // defaultValue
 ```
 const selector = (state) => state.parent
 const child = storeApi.select(selector)
+```
+```
 console.log(child)
 /*
 {
