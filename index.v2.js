@@ -20,27 +20,37 @@ const reducer = ({ state, path, payload }) => {
   }
 }
 
-export const set = (path, payload) => {
-  state = reducer({ state, path, payload })
-  listeners.forEach((listener) => listener())
-  return state
-}
+export const setState = (path, payload) => new Promise((resolve, reject) => {
+  try {
+    state = reducer({ state, path, payload })
+    listeners.forEach((listener) => listener())
+    return resolve(state)
+  } catch (error) {
+    return reject(error)
+  }
+})
 
-export const update = (path, payload) => {
+export const updateState = (path, payload) => {
   const value = _.get(state, path)
    if (_.isObject(value) && _.isObject(payload)) {
-    return set(path, { ...value, ...payload })
+    return setState(path, { ...value, ...payload })
   } else {
-    return set(path, payload)
+    return setState(path, payload)
   }
 }
 
-export const delete = (path) => set(path)
+export const deleteState = (path) => setState(path)
+export const getState = (path, defautValue) => _.get(state, path, defaultValue)
+export const selectState = (selector) => selector(state)
 
-export const get = (path, defautValue) => _.get(state, path, defaultValue)
-export const select = (selector) => selector(state)
+export default {
+  set: setState, 
+  get: getState, 
+  delete: deleteState, 
+  update: updateState
+}
 
-const connect = (props) => (Component) => {
+export const connect = (props) => (Component) => {
   class Connected extends React.Component {
     
     constructor(props) {
