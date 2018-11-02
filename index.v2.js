@@ -23,7 +23,7 @@ const reducer = ({ state, path, payload }) => {
 export const setState = (path, payload) => new Promise((resolve, reject) => {
   try {
     state = reducer({ state, path, payload })
-    listeners.forEach((listener) => listener())
+    listeners.forEach((listener) => listener(state))
     return resolve(state)
   } catch (error) {
     return reject(error)
@@ -50,13 +50,14 @@ export default {
   update: updateState
 }
 
-export const connect = (Component) => {
+export const connect = (selector) = (Component) => {
   class Connected extends React.Component {
     
     constructor(props) {
       super(props)
       this.index = listeners.length
-      listeners.push(this.forceUpdate)
+      this.state = selector(state)
+      listeners.push(() => this.setState(selector(state)))
     }
 
     componentWillUnmount() {
@@ -64,7 +65,7 @@ export const connect = (Component) => {
     }
 
     render() {
-      return (<Component {...this.props} />)
+      return (<Component {...this.state} {...this.props} />)
     }
   }
   return Connected
