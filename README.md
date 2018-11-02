@@ -1,10 +1,6 @@
-Since all reducers and custom implementations on get and set, why not actually <b>get</b> and <b>set</b>?
+Reducer and store wrapper that uses paths to update nested values. The path syntax is the same as  _.set and _get form lodash
 
-Reducer and store wrapper that uses paths to update nested values.
-
-The path syntax is the same as  _.set and _get form lodash
-and it's the only reducer you will ever need
-
+Since all reducers and custom implementations on get and set, why not actually use a universal <b>get</b> and <b>set</b>?
 
 ### Instalation
 ```
