@@ -11,6 +11,8 @@ and it's the only reducer you will ever need
 npm instal save universal-reducer
 ```
 ### Setup
+
+This is a simplified store configuration script:
 ```
 import { createStore } from 'redux'
 import { reducer, createStoreApi } from 'universal-reducer'
@@ -20,7 +22,10 @@ const store = createStore(reducer)
 export const storeApi = createStoreApi(store)
 export default store
 ```
+
 ### Usage
+
+###### Set
 ```
 import store, { storeApi } from 'store'
 
@@ -37,7 +42,9 @@ console.log(store.getState())
   }
 }
 */
-
+```
+###### Update
+```
 storeApi.update('parent.child1.child3', '234')
 console.log(store.getState())
 /*
@@ -50,7 +57,9 @@ console.log(store.getState())
   }
 }
 */
-
+```
+###### Delete
+```
 storeApi.delete('parent.child1.child2')
 console.log(store.getState())
 /*
@@ -62,13 +71,17 @@ console.log(store.getState())
   }
 }
 */
-
+```
+###### Get
+```
 const child = storeApi.get('parent.child1.child3')
 console.log(child)  // 234
 
 const child = storeApi.get('parent.child4', 'defaultValue')
 console.log(child)  // defaultValue
-
+```
+###### Select
+```
 const selector = (state) => state.parent
 const child = storeApi.select(selector)
 console.log(child)
