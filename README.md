@@ -24,13 +24,13 @@ export default store
 ```
 
 ### Usage
-
-###### Set
 ```
 import store, { storeApi } from 'store'
 
 console.log(store.getState()) // {}
 ```
+###### Set
+
 ```
 storeApi.set('parent.child1.child2', '123')
 ```
