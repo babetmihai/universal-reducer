@@ -50,7 +50,7 @@ export default {
   update: updateState
 }
 
-export const connect = (props) => (Component) => {
+export const connect = (Component) => {
   class Connected extends React.Component {
     
     constructor(props) {
@@ -64,7 +64,8 @@ export const connect = (props) => (Component) => {
     }
 
     render() {
-      return (<Connected {...props} {...this.props} />)
+      return (<Component {...this.props} />)
     }
   }
+  return Connected
 }
