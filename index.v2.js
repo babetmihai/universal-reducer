@@ -1,42 +1,44 @@
 
 const state = {}
 const listeners = []
-
-
-export const reducer = (state = {}, action = {}) => {
-  const { type, path, payload } = action
-  if (type === UNIVERSAL_ACTION_TYPE) {
-    const keys = path.split('.').filter(Boolean)
-    switch (true) {
-      case (keys.length === 0): return payload
-      case (keys.length === 1): return omitBy({
-        ...state,
-        [keys[0]]: payload
-      }, isNil)
-      default: return {
-        ...state,
-        [keys[0]]: reducer(state[keys[0]], {
-          payload,
-          type: UNIVERSAL_ACTION_TYPE,
-          path: keys.slice(1).join('.')
-        })
-      }
+const reducer = ({ state, path, payload }) => {
+  const keys = path.split('.').filter(Boolean)
+  switch (true) {
+    case (keys.length === 0): return payload
+    case (keys.length === 1): return omitBy({
+      ...state,
+      [keys[0]]: payload
+    }, isNil)
+    default: return {
+      ...state,
+      [keys[0]]: reducer({
+        state: state[keys[0]],
+        path: keys.slice(1).join('.'),
+        payload
+      })
     }
-  } else {
-    return state
   }
 }
 
-const set = (state) => {
-  const newState = state
-  listeners.forEach((listener) => listener(newState))
-  return newState
+export const set = (path, payload) => {
+  state = reducer({ state, path, payload })
+  listeners.forEach((listener) => listener(state))
+  return state
 }
 
-
-const createListener = (updater) => {
-  return {}
+export const update = (path, payload) => {
+  const value = _.get(state, path)
+   if (isObject(value) && isObject(payload)) {
+    return set(path, { ...value, ...payload })
+  } else {
+    return set(path, payload)
+  }
 }
+
+export const delete = (path) => set(path)
+
+export const get = (path, defautValue) => _.get(state, path, defaultValue)
+export const select = (selector) => selector(state)
 
 const connect = (props) => (Component) => {
   class Connected extends React.Component {
@@ -53,7 +55,7 @@ const connect = (props) => (Component) => {
     }
 
     render() {
-      reutrn (<Connected {...props} {...this.props} />)
+      return (<Connected {...props} {...this.props} />)
     }
   }
 }
