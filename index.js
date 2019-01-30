@@ -1,32 +1,38 @@
-import omitBy from 'lodash/omitBy'
+import clone from 'lodash/clone'
 import isNil from 'lodash/isNil'
-import isObject from 'lodash/isObject'
+import isPlainObject from 'lodash/isPlainObject'
 import get from 'lodash/get'
 
 export const UNIVERSAL_ACTION_TYPE = '@@universal_reducer'
 
 export const reducer = (state = {}, action = {}) => {
-  const { type, path, payload } = action
+  const { type, path = '', payload } = action
   if (type === UNIVERSAL_ACTION_TYPE) {
     const keys = path.split('.').filter(Boolean)
-    switch (true) {
-      case (keys.length === 0): return payload
-      case (keys.length === 1): return omitBy({
-        ...state,
-        [keys[0]]: payload
-      }, isNil)
-      default: return {
-        ...state,
-        [keys[0]]: reducer(state[keys[0]], {
-          payload,
-          type: UNIVERSAL_ACTION_TYPE,
-          path: keys.slice(1).join('.')
-        })
+
+    if (keys.length === 0) return payload
+
+    const key = keys[0]
+    const newState = clone(state)
+
+    if (keys.length === 1) {
+      if (isNil(payload)) {
+        delete newState[key]
+      } else {
+        newState[key] = payload
       }
+    } else {
+      newState[key] = reducer(state[key], {
+        payload,
+        type: UNIVERSAL_ACTION_TYPE,
+        path: keys.slice(1).join('.')
+      })
     }
+    return newState
   } else {
     return state
   }
+
 }
 
 export const createStoreApi = (store) => ({
@@ -34,7 +40,11 @@ export const createStoreApi = (store) => ({
   get: (path, defautValue) => get(store.getState(), path, defautValue),
   set: (path, payload) => new Promise((resolve, reject) => {
     try {
-      store.dispatch({ path, payload, type: UNIVERSAL_ACTION_TYPE })
+      store.dispatch({
+        path,
+        payload,
+        type: UNIVERSAL_ACTION_TYPE
+      })
       return resolve(payload)
     } catch (error) {
       return reject(error)
@@ -42,7 +52,10 @@ export const createStoreApi = (store) => ({
   }),
   delete: (path) => new Promise((resolve, reject) => {
     try {
-      store.dispatch({ path, type: UNIVERSAL_ACTION_TYPE })
+      store.dispatch({
+        path,
+        type: UNIVERSAL_ACTION_TYPE
+      })
       return resolve()
     } catch (error) {
       return reject(error)
@@ -51,10 +64,17 @@ export const createStoreApi = (store) => ({
   update: (path, payload) => new Promise((resolve, reject) => {
     try {
       const value = get(store.getState(), path)
-      if (isObject(value) && isObject(payload)) {
-        store.dispatch({ path, payload: { ...value, ...payload }, type: UNIVERSAL_ACTION_TYPE })
+      if (isPlainObject(value) && isPlainObject(payload)) {
+        store.dispatch({
+          path,
+          payload: { ...value, ...payload },
+          type: UNIVERSAL_ACTION_TYPE
+        })
       } else {
-        store.dispatch({ path, payload, type: UNIVERSAL_ACTION_TYPE })
+        store.dispatch({
+          path, payload,
+          type: UNIVERSAL_ACTION_TYPE
+        })
       }
       return resolve(payload)
     } catch (error) {
