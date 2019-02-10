@@ -11,9 +11,10 @@ npm instal save universal-reducer
 This is a simplified store configuration script:
 ```
 import { createStore } from 'redux'
-import { reducer, createStoreApi } from 'universal-reducer'
+import { createReducer, createStoreApi } from 'universal-reducer'
 
-const store = createStore(reducer)
+const actionType = 'UNIVERSAL_REDUCER'
+const store = createStore(createReducer(actionType))
 
 export const storeApi = createStoreApi(store)
 export default store
