@@ -49,7 +49,7 @@ console.log(store.getState())
 ```
 ###### Update
 ```
-storeApi.update('parent.child1.child3', '234')
+storeApi.update('parent.child1', { child3: '234' })
 ```
 ```
 console.log(store.getState())
