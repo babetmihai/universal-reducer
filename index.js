@@ -1,5 +1,5 @@
-import clone from 'lodash/clone'
-import isNil from 'lodash/isNil'
+import set from 'lodash/fp/set'
+import unset from 'lodash/fp/unset'
 import isPlainObject from 'lodash/isPlainObject'
 import get from 'lodash/get'
 
@@ -7,27 +7,10 @@ export const createReducer = (actionType) => {
   const reducer = (state = {}, action = {}) => {
     const { type, path = '', payload } = action
     if (type === actionType) {
-      const keys = path.split('.').filter(Boolean)
-      if (keys.length === 0) return payload
-      const key = keys[0]
-      const newState = clone(state)
-      if (keys.length === 1) {
-        if (isNil(payload)) {
-          delete newState[key]
-        } else {
-          newState[key] = payload
-        }
-      } else {
-        newState[key] = reducer(state[key], {
-          payload,
-          type: actionType,
-          path: keys.slice(1).join('.')
-        })
-      }
-      return newState
-    } else {
-      return state
+      if (payload) return set(path, payload, state)
+      return unset(path, state)
     }
+    return state
   }
   return reducer
 }
