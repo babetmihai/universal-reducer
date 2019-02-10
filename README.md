@@ -16,7 +16,7 @@ import { createReducer, createStoreApi } from 'universal-reducer'
 const actionType = 'UNIVERSAL_REDUCER'
 const store = createStore(createReducer(actionType))
 
-export const storeApi = createStoreApi(store)
+export const storeApi = createStoreApi({ store, actionType })
 export default store
 ```
 
