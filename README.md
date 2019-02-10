@@ -13,10 +13,14 @@ This is a simplified store configuration script:
 import { createStore } from 'redux'
 import { createReducer, createStoreApi } from 'universal-reducer'
 
-const actionType = 'UNIVERSAL_REDUCER'
-const store = createStore(createReducer(actionType))
+const actionTypes = {
+  set: 'SET',
+  delete: 'DELETE',
+  update: 'UPDATE'
+}
+const store = createStore(createReducer(actionTypes))
 
-export const storeApi = createStoreApi({ store, actionType })
+export const storeApi = createStoreApi({ store, actionTypes })
 export default store
 ```
 

@@ -2,14 +2,19 @@ const assert = require('assert')
 const get = require('lodash/get')
 const { createReducer } = require('./dist')
 
-const UNIVERSAL_ACTION_TYPE = 'UNIVERSAL_ACTION_TYPE'
-const reducer = createReducer(UNIVERSAL_ACTION_TYPE)
+const actionTypes = {
+  update: 'UPDATE',
+  set: 'SET',
+  delete: 'DELETE'
+}
+
+const reducer = createReducer(actionTypes)
 
 describe('test universal reducers', () => {
   it('should create a nested value', () => {
     const state = {}
     const newState = reducer(state, {
-      type: UNIVERSAL_ACTION_TYPE,
+      type: actionTypes.set,
       path: 'parent.child1.child2',
       payload: '123'
     })
@@ -32,17 +37,18 @@ describe('test universal reducers', () => {
       }
     }
     const newState = reducer(state, {
-      type: UNIVERSAL_ACTION_TYPE,
-      path: 'parent.child1.child2.1.value',
-      payload: '126'
+      type: actionTypes.update,
+      path: 'parent.child1.child2.0.value2',
+      payload: '234'
     })
+
     assert.deepEqual(newState, {
       parent: {
         child1: {
-          child2: [
-            { value: '123' },
-            { value: '126' }
-          ],
+          child2: [{
+            value: '123',
+            value2: '234'
+          }],
           child3: {}
         }
       }
@@ -76,7 +82,7 @@ describe('test universal reducers', () => {
       }
     }
     const newState = reducer(state, {
-      type: UNIVERSAL_ACTION_TYPE,
+      type: actionTypes.delete,
       path: 'parent.child1.child2'
     })
     assert.deepEqual(newState, {
