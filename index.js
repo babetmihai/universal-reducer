@@ -36,35 +36,35 @@ export const createStoreApi = ({ store, actionType }) => ({
   select: (selector) => selector(store.getState()),
   get: (path, defautValue) => get(store.getState(), path, defautValue),
   set: (path, payload) => new Promise((resolve, reject) => {
-    try {
-      setTimeout(() => {
+    setTimeout(() => {
+      try {
         store.dispatch({
           path,
           payload,
           type: actionType
         })
         return resolve(payload)
-      }, 0)
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    }, 0)
   }),
   delete: (path) => new Promise((resolve, reject) => {
-    try {
-      setTimeout(() => {
+    setTimeout(() => {
+      try {
         store.dispatch({
           path,
           type: actionType
         })
         return resolve()
-      }, 0)
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    }, 0)
   }),
   update: (path, payload) => new Promise((resolve, reject) => {
-    try {
-      setTimeout(() => {
+    setTimeout(() => {
+      try {
         const value = get(store.getState(), path)
         if (isPlainObject(value) && isPlainObject(payload)) {
           store.dispatch({
@@ -79,9 +79,9 @@ export const createStoreApi = ({ store, actionType }) => ({
           })
         }
         return resolve(payload)
-      }, 0)
-    } catch (error) {
-      return reject(error)
-    }
+      } catch (error) {
+        return reject(error)
+      }
+    }, 0)
   })
 })
