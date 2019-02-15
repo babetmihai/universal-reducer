@@ -1,6 +1,4 @@
-Reducer and store wrapper that uses paths to update nested values. The path syntax is the same as  _.set and _get form lodash
-
-Since all reducers and custom implementations on get and set, why not actually use a universal <b>get</b> and <b>set</b>?
+Reducer and store wrapper that uses paths to update nested values. The path syntax is the same as  _.set and _.get form lodash
 
 ### Instalation
 ```
@@ -37,7 +35,6 @@ storeApi.set('parent.child1.child2', '123')
 ```
 ```
 console.log(store.getState())
-/*
 {
   parent: {
     child1: {
@@ -45,7 +42,6 @@ console.log(store.getState())
     }
   }
 }
-*/
 ```
 ###### Update
 ```
@@ -53,7 +49,6 @@ storeApi.update('parent.child1', { child3: '234' })
 ```
 ```
 console.log(store.getState())
-/*
 {
   parent: {
     child1: {
@@ -62,7 +57,6 @@ console.log(store.getState())
     }
   }
 }
-*/
 ```
 ###### Delete
 ```
@@ -70,7 +64,6 @@ storeApi.delete('parent.child1.child2')
 ```
 ```
 console.log(store.getState())
-/*
 {
   parent: {
     child1: {
@@ -78,7 +71,6 @@ console.log(store.getState())
     }
   }
 }
-*/
 ```
 ###### Get
 ```
@@ -96,11 +88,9 @@ const child = storeApi.select(selector)
 ```
 ```
 console.log(child)
-/*
 {
   child1: {
     child3: '234'
   }
 }
-*/
 ```
