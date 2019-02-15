@@ -35,6 +35,7 @@ storeApi.set('parent.child1.child2', '123')
 ```
 ```
 console.log(store.getState())
+
 {
   parent: {
     child1: {
@@ -49,6 +50,7 @@ storeApi.update('parent.child1', { child3: '234' })
 ```
 ```
 console.log(store.getState())
+
 {
   parent: {
     child1: {
@@ -64,6 +66,7 @@ storeApi.delete('parent.child1.child2')
 ```
 ```
 console.log(store.getState())
+
 {
   parent: {
     child1: {
@@ -88,6 +91,7 @@ const child = storeApi.select(selector)
 ```
 ```
 console.log(child)
+
 {
   child1: {
     child3: '234'
