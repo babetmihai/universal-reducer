@@ -59,7 +59,7 @@ export const createReducer = (actionTypes = ACTION_TYPES) => {
   return reducer
 }
 
-export const createStoreApi = ({ store, actionTypes = ACTION_TYPES }) => ({
+export const createActions = ({ store, actionTypes = ACTION_TYPES }) => ({
   get: (path, defautValue) => get(store.getState(), path, defautValue),
   set: (path, payload) => store.dispatch({ path, payload, type: actionTypes.set }),
   delete: (path) => store.dispatch({ path, type: actionTypes.delete }),

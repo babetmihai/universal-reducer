@@ -37,7 +37,7 @@ export default store
 
 ### Usage
 ```
-import store, { storeApi } from 'store'
+import store, { actions } from 'store'
 
 console.log(store.getState()) // {}
 ```
@@ -97,6 +97,6 @@ const child = actions.get('parent.child1.child3')
 console.log(child)  // 234
 ```
 ```
-const child = storeApi.get('parent.child4', 'defaultValue')
+const child = actions.get('parent.child4', 'defaultValue')
 console.log(child)  // defaultValue
 ```
