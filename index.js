@@ -6,7 +6,13 @@ import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import isFunction from 'lodash/isFunction'
 
-export const createReducer = (actionTypes) => {
+const ACTION_TYPES = {
+  set: '@@SET',
+  update: '@@UPDATE',
+  delete: '@@DELETE'
+}
+
+export const createReducer = (actionTypes = ACTION_TYPES) => {
   const reducer = (state = {}, action = {}) => {
     const { type, path, payload } = action
     if (!path) {
@@ -53,8 +59,7 @@ export const createReducer = (actionTypes) => {
   return reducer
 }
 
-export const createStoreApi = ({ store, actionTypes }) => ({
-  select: (selector) => selector(store.getState()),
+export const createStoreApi = ({ store, actionTypes = ACTION_TYPES }) => ({
   get: (path, defautValue) => get(store.getState(), path, defautValue),
   set: (path, payload) => store.dispatch({ path, payload, type: actionTypes.set }),
   delete: (path) => store.dispatch({ path, type: actionTypes.delete }),

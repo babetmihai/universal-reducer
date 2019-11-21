@@ -7,9 +7,22 @@ npm instal save universal-reducer
 ### Setup
 
 This is a simplified store configuration script:
+
+Using the default action types, ``@@SET``, ``@@GET``, ``@@DELETE``:
 ```
 import { createStore } from 'redux'
-import { createReducer, createStoreApi } from 'universal-reducer'
+import { createReducer, createActions } from 'universal-reducer'
+
+const store = createStore(createReducer())
+
+export const actions = createActions({ store })
+export default store
+```
+
+For custom action types:
+```
+import { createStore } from 'redux'
+import { createReducer, createActions } from 'universal-reducer'
 
 const actionTypes = {
   set: 'SET',
@@ -18,7 +31,7 @@ const actionTypes = {
 }
 const store = createStore(createReducer(actionTypes))
 
-export const storeApi = createStoreApi({ store, actionTypes })
+export const actions = createActions({ store, actionTypes })
 export default store
 ```
 
@@ -28,10 +41,10 @@ import store, { storeApi } from 'store'
 
 console.log(store.getState()) // {}
 ```
-###### Set
-
+##### Set
+Is used to set nested value:
 ```
-storeApi.set('parent.child1.child2', '123')
+actions.set('parent.child1.child2', '123')
 ```
 ```
 console.log(store.getState())
@@ -44,9 +57,10 @@ console.log(store.getState())
   }
 }
 ```
-###### Update
+##### Update
+Is used to update a nested value using an object or a function
 ```
-storeApi.update('parent.child1', { child3: '234' })
+actions.update('parent.child1', { child3: '234' })
 ```
 ```
 console.log(store.getState())
@@ -60,9 +74,10 @@ console.log(store.getState())
   }
 }
 ```
-###### Delete
+##### Delete
+Is used to delete a nested value and it's coresponding key:
 ```
-storeApi.delete('parent.child1.child2')
+actions.delete('parent.child1.child2')
 ```
 ```
 console.log(store.getState())
@@ -75,26 +90,13 @@ console.log(store.getState())
   }
 }
 ```
-###### Get
+##### Get
+Is used to retrieve a value from the store:
 ```
-const child = storeApi.get('parent.child1.child3')
+const child = actions.get('parent.child1.child3')
 console.log(child)  // 234
 ```
 ```
 const child = storeApi.get('parent.child4', 'defaultValue')
 console.log(child)  // defaultValue
-```
-###### Select
-```
-const selector = (state) => state.parent
-const child = storeApi.select(selector)
-```
-```
-console.log(child)
-
-{
-  child1: {
-    child3: '234'
-  }
-}
 ```
