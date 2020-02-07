@@ -13,42 +13,26 @@ const ACTION_TYPES = {
 }
 
 export const createReducer = (actionTypes = ACTION_TYPES) => (state = {}, action = {}) => {
-  const { type, path, payload } = action
-  if (!path) {
-    switch (type) {
-      case (actionTypes.set): {
-        if (isNil(payload)) return {}
-        return payload
-      }
-      case (actionTypes.update): {
-        if (isNil(payload)) return state
-        if (isFunction(payload)) return payload(state)
-        if (isPlainObject(state) && isPlainObject(payload)) return { ...state, ...payload }
-        return payload
-      }
-      case (actionTypes.delete): return {}
-      default: return state
+  const { path, type, payload } = action
+
+  switch (type) {
+    case (actionTypes.set): {
+      if (isNil(payload)) return unset(path, state)
+      return setWith(Object, path, payload, state)
     }
-  } else {
-    switch (type) {
-      case (actionTypes.set): {
-        if (isNil(payload)) return unset(path, state)
-        return setWith(Object, path, payload, state)
-      }
-      case (actionTypes.update): {
-        if (isNil(payload)) return state
-        if (isFunction(payload)) return updateWith(Object, path, payload, state)
-        return updateWith(Object, path, (value) => {
-          if (isPlainObject(value) && isPlainObject(payload)) {
-            return { ...value, ...payload }
-          } else {
-            return payload
-          }
-        }, state)
-      }
-      case (actionTypes.delete): return unset(path, state)
-      default: return state
+    case (actionTypes.update): {
+      if (isNil(payload)) return state
+      if (isFunction(payload)) return updateWith(Object, path, payload, state)
+      return updateWith(Object, path, (value) => {
+        if (isPlainObject(value) && isPlainObject(payload)) {
+          return { ...value, ...payload }
+        } else {
+          return payload
+        }
+      }, state)
     }
+    case (actionTypes.delete): return unset(path, state)
+    default: return state
   }
 }
 
