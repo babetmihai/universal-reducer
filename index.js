@@ -1,44 +1,30 @@
 import setWith from 'lodash/fp/setWith'
 import unset from 'lodash/fp/unset'
 import updateWith from 'lodash/fp/updateWith'
-import isPlainObject from 'lodash/isPlainObject'
+import merge from 'lodash/fp/merge'
 import get from 'lodash/get'
-import isNil from 'lodash/isNil'
-import isFunction from 'lodash/isFunction'
 
-const ACTION_TYPES = {
-  set: '@@SET',
-  update: '@@UPDATE',
-  delete: '@@DELETE'
-}
+const SET = '_SET'
+const UPDATE = '_UPDATE'
+const MERGE = '_MERGE'
+const UNSET = '_UNSET'
 
-export const createReducer = (actionTypes = ACTION_TYPES) => (state = {}, action = {}) => {
+export const reducer = (state = {}, action = {}) => {
   const { path, type, payload } = action
 
   switch (type) {
-    case (actionTypes.set): {
-      if (isNil(payload)) return unset(path, state)
-      return setWith(Object, path, payload, state)
-    }
-    case (actionTypes.update): {
-      if (isNil(payload)) return state
-      if (isFunction(payload)) return updateWith(Object, path, payload, state)
-      return updateWith(Object, path, (value) => {
-        if (isPlainObject(value) && isPlainObject(payload)) {
-          return { ...value, ...payload }
-        } else {
-          return payload
-        }
-      }, state)
-    }
-    case (actionTypes.delete): return unset(path, state)
+    case (SET): return setWith(Object, path, payload, state)
+    case (UPDATE): return updateWith(Object, path, payload, state)
+    case (MERGE): return updateWith(Object, path, (value) => merge(value, payload), state)
+    case (UNSET): return unset(path, state)
     default: return state
   }
 }
 
-export const createActions = ({ store, actionTypes = ACTION_TYPES }) => ({
+export const createActions = (store) => ({
   get: (path, defautValue) => get(store.getState(), path, defautValue),
-  set: (path, payload) => store.dispatch({ path, payload, type: actionTypes.set }),
-  delete: (path) => store.dispatch({ path, type: actionTypes.delete }),
-  update: (path, payload) => store.dispatch({ path, payload, type: actionTypes.update })
+  set: (path, payload) => store.dispatch({ path, payload, type: SET }),
+  unset: (path) => store.dispatch({ path, type: UNSET }),
+  merge: (path, payload) => store.dispatch({ path, payload, type: MERGE }),
+  update: (path, payload) => store.dispatch({ path, payload, type: UPDATE })
 })

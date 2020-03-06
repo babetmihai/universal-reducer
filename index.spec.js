@@ -1,14 +1,12 @@
 const assert = require('assert')
 const get = require('lodash/get')
-const { createReducer } = require('./dist')
-
-const reducer = createReducer()
+const { reducer } = require('./dist')
 
 describe('test universal reducers', () => {
   it('should create a nested value', () => {
     const state = {}
     const newState = reducer(state, {
-      type: '@@SET',
+      type: '_SET',
       path: 'parent.child1.child2',
       payload: '123'
     })
@@ -31,18 +29,21 @@ describe('test universal reducers', () => {
       }
     }
     const newState = reducer(state, {
-      type: '@@UPDATE',
-      path: 'parent.child1.child2.0.value2',
-      payload: '234'
+      type: '_MERGE',
+      path: 'parent.child1.child2.0',
+      payload: { value: '1234', value2: '234', value3: '345' }
     })
 
     assert.deepEqual(newState, {
       parent: {
         child1: {
-          child2: [{
-            value: '123',
-            value2: '234'
-          }],
+          child2: [
+            {
+              value: '1234',
+              value2: '234',
+              value3: '345'
+            }
+          ],
           child3: {}
         }
       }
@@ -76,7 +77,7 @@ describe('test universal reducers', () => {
       }
     }
     const newState = reducer(state, {
-      type: '@@DELETE',
+      type: '_UNSET',
       path: 'parent.child1.child2'
     })
     assert.deepEqual(newState, {
