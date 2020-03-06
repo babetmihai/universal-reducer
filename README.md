@@ -5,36 +5,15 @@ Reducer and store wrapper that uses paths to update nested values. The path synt
 npm instal save universal-reducer
 ```
 ### Setup
-
-This is a simplified store configuration script:
-
-Using the default action types, ``@@SET``, ``@@GET``, ``@@DELETE``:
 ```
 import { createStore } from 'redux'
-import { createReducer, createActions } from 'universal-reducer'
+import { reducer, createActions } from 'universal-reducer'
 
-const store = createStore(createReducer())
+const store = createStore(reducer)
 
-export const actions = createActions({ store })
+export const actions = createActions(store)
 export default store
 ```
-
-For custom action types:
-```
-import { createStore } from 'redux'
-import { createReducer, createActions } from 'universal-reducer'
-
-const actionTypes = {
-  set: 'SET',
-  delete: 'DELETE',
-  update: 'UPDATE'
-}
-const store = createStore(createReducer(actionTypes))
-
-export const actions = createActions({ store, actionTypes })
-export default store
-```
-
 ### Usage
 ```
 import store, { actions } from 'store'
@@ -42,7 +21,8 @@ import store, { actions } from 'store'
 console.log(store.getState()) // {}
 ```
 ##### Set
-Is used to set nested value:
+Set nested value using the _.set function
+https://lodash.com/docs/4.17.15#set
 ```
 actions.set('parent.child1.child2', '123')
 ```
@@ -57,8 +37,10 @@ console.log(store.getState())
   }
 }
 ```
+
 ##### Update
-Is used to update a nested value using an object or a function
+Set nested value using the _.update function
+https://lodash.com/docs/4.17.15#update
 ```
 actions.update('parent.child1', { child3: '234' })
 ```
@@ -74,8 +56,9 @@ console.log(store.getState())
   }
 }
 ```
-##### Delete
-Is used to delete a nested value and it's coresponding key:
+##### Unset
+Unset a nested value using the _.unset function
+https://lodash.com/docs/4.17.15#unset
 ```
 actions.delete('parent.child1.child2')
 ```
@@ -85,11 +68,32 @@ console.log(store.getState())
 {
   parent: {
     child1: {
-      child3: '234
+      child3: '234'
     }
   }
 }
 ```
+
+##### Merge
+Set nested value using the _.merge function
+https://lodash.com/docs/4.17.15#merge
+```
+actions.set('parent.child1', { child2: '123' })
+```
+
+console.log(store.getState())
+```
+{
+  parent: {
+    child1: {
+      child3: '234',
+      child2: '123'
+    }
+  }
+}
+```
+
+
 ##### Get
 Is used to retrieve a value from the store:
 ```
