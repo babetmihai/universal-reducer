@@ -42,7 +42,7 @@ console.log(store.getState())
 Set nested value using the _.update function
 https://lodash.com/docs/4.17.15#update
 ```
-actions.update('parent.child1', { child3: '234' })
+actions.update('parent.child1', (value) => ({ ...value, child3: '234' }))
 ```
 ```
 console.log(store.getState())
@@ -51,7 +51,7 @@ console.log(store.getState())
   parent: {
     child1: {
       child2: '123',
-      child3: '234
+      child3: '234'
     }
   }
 }
