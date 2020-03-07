@@ -60,7 +60,7 @@ console.log(store.getState())
 Unset a nested value using the _.unset function
 https://lodash.com/docs/4.17.15#unset
 ```
-actions.delete('parent.child1.child2')
+actions.unset('parent.child1.child2')
 ```
 ```
 console.log(store.getState())
@@ -78,7 +78,7 @@ console.log(store.getState())
 Set nested value using the _.merge function
 https://lodash.com/docs/4.17.15#merge
 ```
-actions.set('parent.child1', { child2: '123' })
+actions.merge('parent.child1', { child2: '123' })
 ```
 
 console.log(store.getState())
