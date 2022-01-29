@@ -6,54 +6,46 @@
 import setWith from "lodash/fp/setWith";
 import unset from "lodash/fp/unset";
 import updateWith from "lodash/fp/updateWith";
-import _ from "lodash";
+import { createStore } from "redux";
+import get from 'lodash/get'
 
 
 const EMPTY_OBJECT = {};
 
-
-
 const SET = "@SET";
 const UPDATE = "@UPDATE";
 const UNSET = "@UNSET";
+const INIT = "@INIT"
 
 
-export const reducer = (state: any = EMPTY_OBJECT, action: any = EMPTY_OBJECT) => {
+const reducer = (state: any = EMPTY_OBJECT, action: any = EMPTY_OBJECT) => {
   const { type, method, payload } = action;
 
   switch (method) {
-    case SET: {
-      if (_.isNil(payload)) return unset(type, state);
-      return setWith(Object, type, payload, state);
-    }
-    case UPDATE: {
-      if (_.isNil(payload)) return state;
-      if (_.isFunction(payload)) return updateWith(Object, type, payload, state);
-      return updateWith(
-        Object,
-        type,
-        (value) => {
-          if (_.isPlainObject(value) && _.isPlainObject(payload)) {
-            return { ...value, ...payload };
-          } else {
-            return payload;
-          }
-        },
-        state
-      );
-    }
+    case INIT: return payload
+    case SET:  return setWith(Object, type, payload, state);
+    case UPDATE: return updateWith(Object, type, payload, state);
     case UNSET: return unset(type, state);
     default: return state;
   }
 };
 
 
+export const createUniversalStore = (initialState, ...middleware) => {
+  const store:any = createStore(
+    reducer,
+    initialState,
+    ...middleware
+  )
+
+  store.get = (path: string, defautValue?: any): any => get(store.getState(), path, defautValue)
+  store.set = (path: string, payload: any) => store.dispatch({ type: path, payload, method: SET })
+  store.unset = (path: string) => store.dispatch({ type: path, method: UNSET })
+  store.update = (path: string, payload: Function) => store.dispatch({ type: path, payload, method: UPDATE })
+
+  return store
+}
 
 
+export default reducer
 
-export const createActions = (store) => ({
-  get: (path: string, defautValue?: any): any => _.get(store.getState(), path, defautValue),
-  set: (path: string, payload: any) => store.dispatch({ type: path, payload, method: SET }),
-  unset: (path: string) => store.dispatch({ type: path, method: UNSET }),
-  update: (path: string, payload: Function | Object) => store.dispatch({ type: path, payload, method: UPDATE })
-})
