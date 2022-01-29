@@ -14,7 +14,5 @@
       "esnext"
     ],
   },
-  "include": [
-    "src"
-  ]
+  "include": ["index.ts"]
 }
