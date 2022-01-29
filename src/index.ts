@@ -16,8 +16,17 @@ const UPDATE = "@@UPDATE";
 const UNSET = "@@UNSET";
 
 
-const reducer = (state: any = EMPTY_OBJECT, action: any = EMPTY_OBJECT) => {
-  const { type, method, payload } = action;
+type IAction = {
+  type: any;
+  method: string;
+  payload: any;
+} 
+
+const reducer = (
+  state: any = EMPTY_OBJECT, 
+  action: IAction
+) => {
+  const { type, method, payload } = action
 
   switch (method) {
     case SET:  return setWith(Object, type, payload, state);
