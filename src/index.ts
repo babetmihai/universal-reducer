@@ -6,34 +6,22 @@
 import setWith from "lodash/fp/setWith";
 import unset from "lodash/fp/unset";
 import updateWith from "lodash/fp/updateWith";
-import { createStore } from "redux";
 import _ from "lodash";
 
 
 const EMPTY_OBJECT = {};
 
-const STATE_KEY = "simago-state";
-const PERSISTENT_PATHS = [
-  "user",
-  "layout",
-  "widgets",
-  "widgetData.weather",
-  "widgetData.todos",
-  "shortcuts"
-];
+
 
 const SET = "@SET";
 const UPDATE = "@UPDATE";
 const UNSET = "@UNSET";
-const CLEAR = "@CLEAR";
-const INIT = "@INIT"
 
 
 export const reducer = (state: any = EMPTY_OBJECT, action: any = EMPTY_OBJECT) => {
   const { type, method, payload } = action;
 
   switch (method) {
-    case INIT: return payload
     case SET: {
       if (_.isNil(payload)) return unset(type, state);
       return setWith(Object, type, payload, state);
@@ -55,56 +43,17 @@ export const reducer = (state: any = EMPTY_OBJECT, action: any = EMPTY_OBJECT) =
       );
     }
     case UNSET: return unset(type, state);
-    case CLEAR: return EMPTY_OBJECT;
     default: return state;
   }
 };
 
 
-const store = createStore(
-  reducer,
-  EMPTY_OBJECT,
-  // @ts-ignore
-  global.__REDUX_DEVTOOLS_EXTENSION__?.()
-);
 
 
-export const actions = {
+
+export const createActions = (store) => ({
   get: (path: string, defautValue?: any): any => _.get(store.getState(), path, defautValue),
   set: (path: string, payload: any) => store.dispatch({ type: path, payload, method: SET }),
   unset: (path: string) => store.dispatch({ type: path, method: UNSET }),
-  update: (path: string, payload: Function | Object) => store.dispatch({ type: path, payload, method: UPDATE }),
-  clear: () => store.dispatch({ type: CLEAR, method: CLEAR }),
-  init: (payload: any) => store.dispatch({
-    type: INIT,
-    method: INIT,
-    payload
-  })
-};
-
-
-export const initStore = async () => {
-  try {
-    const persistentState = localStorage.getItem(STATE_KEY)
-    const state = JSON.parse(persistentState) || EMPTY_OBJECT
-    actions.init(state)
-    store.subscribe(saveState)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const saveState = _.debounce(async () => {
-  try {
-    const state = store.getState()
-    const persistentState = _.pick(state, PERSISTENT_PATHS)
-    localStorage.setItem(STATE_KEY, JSON.stringify(persistentState))
-  } catch (error) {
-    console.error(error)
-  }
-}, 250, { leading: false, trailing: true })
-
-
-export default store;
-
-export type RootState = ReturnType<typeof store.getState>;
+  update: (path: string, payload: Function | Object) => store.dispatch({ type: path, payload, method: UPDATE })
+})
