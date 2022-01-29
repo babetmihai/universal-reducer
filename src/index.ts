@@ -21,7 +21,6 @@ type IAction = {
 } 
 
 
-
 const reducer = (
   state: any = {}, 
   action: IAction
@@ -37,10 +36,22 @@ const reducer = (
 
 
 export const createActions = (store) => ({
+  /**
+   *  Gets the value at path of object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
+  */
   get: (path: string, defautValue?: any): any => get(store.getState(), path, defautValue),
+  /**
+   *  Sets the value at path of object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
+  */
   set: (path: string, payload: any): void => store.dispatch({ type: path, payload, method: SET }),
-  unset: (path: string): void => store.dispatch({ type: path, method: UNSET }),
+  /**
+   *  This method is like set except that accepts updater to produce the value to set. https://lodash.com/docs/4.17.21#update
+  */
   update: (path: string, payload: Function): void => store.dispatch({ type: path, payload, method: UPDATE }),
+  /**
+   *  Removes the property at path of object. https://lodash.com/docs/4.17.21#unset
+  */
+  unset: (path: string): void => store.dispatch({ type: path, method: UNSET }),
 })
 
 
