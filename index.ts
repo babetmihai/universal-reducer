@@ -26,11 +26,11 @@ const reducer = (
   state: any = {}, 
   action: IAction
 ) => {
-  const { type, method, payload } = action
+  const { type: path, method, payload } = action
   switch (method) {
-    case SET: return setWith(Object, type, payload, state);
-    case UPDATE: return updateWith(Object, type, payload, state);
-    case UNSET: return unset(type, state);
+    case SET: return setWith(Object, path, payload, state);
+    case UPDATE: return updateWith(Object, path, payload, state);
+    case UNSET: return unset(path, state);
     default: return state;
   }
 };
