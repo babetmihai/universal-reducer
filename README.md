@@ -121,24 +121,24 @@ function Test() {
 	return (
 		<div>
 			<span>
-			<button
-				onClick={() => actions.set('parent1.parent2.value', 100)
-			>
-				SET to 100
-			</button>
-			<button
-				onClick={() => actions.update('parent1.parent2.value', (b = 0) => b + 1))
-			>
-				INCREMENT
-			</button>
-			<button
-				onClick={() => actions.update('parent1.parent2.value', (b = 0) => b - 1))
-			>
-				DECREMENT
-			</button>
-			<button onClick={() => actions.unset('parent1')>
-				DELETE
-			</button>
+    			<button
+    				onClick={() => actions.set('parent1.parent2.value', 100)
+    			>
+    				SET to 100
+    			</button>
+    			<button
+    				onClick={() => actions.update('parent1.parent2.value', (b = 0) => b + 1))
+    			>
+    				INCREMENT
+    			</button>
+    			<button
+    				onClick={() => actions.update('parent1.parent2.value', (b = 0) => b - 1))
+    			>
+    				DECREMENT
+    			</button>
+    			<button onClick={() => actions.unset('parent1')>
+    				DELETE
+    			</button>
 			</span>
 			<span>{value}</span>
 		</div>
