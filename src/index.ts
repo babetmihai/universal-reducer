@@ -20,6 +20,8 @@ type IAction = {
   payload: any;
 } 
 
+
+
 const reducer = (
   state: any = {}, 
   action: IAction
@@ -36,9 +38,9 @@ const reducer = (
 
 export const createActions = (store) => ({
   get: (path: string, defautValue?: any): any => get(store.getState(), path, defautValue),
-  set: (path: string, payload: any) => store.dispatch({ type: path, payload, method: SET }),
-  unset: (path: string) => store.dispatch({ type: path, method: UNSET }),
-  update: (path: string, payload: Function) => store.dispatch({ type: path, payload, method: UPDATE }),
+  set: (path: string, payload: any): void => store.dispatch({ type: path, payload, method: SET }),
+  unset: (path: string): void => store.dispatch({ type: path, method: UNSET }),
+  update: (path: string, payload: Function): void => store.dispatch({ type: path, payload, method: UPDATE }),
 })
 
 
