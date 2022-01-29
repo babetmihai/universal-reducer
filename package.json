@@ -4,8 +4,7 @@
   "description": "Reducer that can update the store using the _.set api",
   "main": "dist/index",
   "scripts": {
-    "test": "npm run prepublish && mocha index.spec.js",
-    "prepublish": "babel index.js --source-maps --out-dir dist"
+    "build": "npx tsc"
   },
   "keywords": [
     "redux",
@@ -20,17 +19,14 @@
   },
   "author": "Mihai Babet",
   "license": "MIT",
-  "dependencies": {
-    "lodash": "^4.17.11"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^5.8.0",
-    "mocha": "^5.2.0"
-  },
   "engines": {
     "node": ">=6"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "redux": "^4.1.2"
   }
 }
