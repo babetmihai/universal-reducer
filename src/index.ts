@@ -9,8 +9,6 @@ import updateWith from "lodash/fp/updateWith";
 import get from 'lodash/get'
 
 
-const EMPTY_OBJECT = {};
-
 const SET = "@@SET";
 const UPDATE = "@@UPDATE";
 const UNSET = "@@UNSET";
@@ -23,11 +21,10 @@ type IAction = {
 } 
 
 const reducer = (
-  state: any = EMPTY_OBJECT, 
+  state: any = {}, 
   action: IAction
 ) => {
   const { type, method, payload } = action
-
   switch (method) {
     case SET:  return setWith(Object, type, payload, state);
     case UPDATE: return updateWith(Object, type, payload, state);
