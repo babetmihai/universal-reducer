@@ -1,4 +1,4 @@
-Reducer and store wrapper that uses paths to update nested values. The path syntax is the same as _.set and _.get form lodash
+Reducer and actions that set and get the value at path of the state object using lodash.
 
 ## Instalation
 
