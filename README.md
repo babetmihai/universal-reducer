@@ -31,11 +31,11 @@ actions.set('parent.child1.child2', '123')
 console.log(store.getState())
 
 {
-	parent: {
-		child1: {
-			child2: '123'
-		}
-	}
+  parent: {
+    child1: {
+      child2: '123'
+    }
+  }
 }
 ```
 
@@ -52,12 +52,12 @@ actions.update('parent.child1', (value) => ({ ...value, child3: '234' }))
 console.log(store.getState())
 
 {
-	parent: {
-		child1: {
-			child2: '123',
-			child3: '234'
-		}
-	}
+  parent: {
+    child1: {
+      child2: '123',
+      child3: '234'
+    }
+  }
 }
 ```
 
@@ -74,11 +74,11 @@ actions.unset('parent.child1.child2')
 console.log(store.getState())
 
 {
-	parent: {
-		child1: {
-			child3: '234'
-		}
-	}
+  parent: {
+    child1: {
+      child3: '234'
+    }
+  }
 }
 ```
 
@@ -103,6 +103,7 @@ console.log(child) // defaultValue
 
 This implementation requires `react-redux` to be set up on your project, using the universal reducer and store.
 https://redux.js.org/introduction/getting-started#basic-example
+https://react-redux.js.org/introduction/getting-started
 
 ```
 import { createStore } from 'redux'
@@ -117,31 +118,31 @@ export default store
 import { actions } from './store'
 
 function Test() {
-	const { value = 0 } = useSelector(() => actions.get('parent1.parent2', {}))
-	return (
-		<div>
-			<span>
-    			<button
-    				onClick={() => actions.set('parent1.parent2.value', 100)
-    			>
-    				SET to 100
-    			</button>
-    			<button
-    				onClick={() => actions.update('parent1.parent2.value', (b = 0) => b + 1))
-    			>
-    				INCREMENT
-    			</button>
-    			<button
-    				onClick={() => actions.update('parent1.parent2.value', (b = 0) => b - 1))
-    			>
-    				DECREMENT
-    			</button>
-    			<button onClick={() => actions.unset('parent1')>
-    				DELETE
-    			</button>
-			</span>
-			<span>{value}</span>
-		</div>
-	)
+  const { value } = useSelector(() => actions.get('parent1.parent2', {}))
+  return (
+    <div>
+      <span>
+        <button 
+	  onClick={() => actions.set('parent1.parent2.value', 100)
+	>
+    	  SET to 100
+    	</button>
+    	<button
+    	  onClick={() => actions.update('parent1.parent2.value', (b = 0) => b + 1))
+    	>
+    	  INCREMENT
+    	</button>
+    	<button
+    	  onClick={() => actions.update('parent1.parent2.value', (b = 0) => b - 1))
+    	> 
+	  DECREMENT
+    	</button>
+    	<button onClick={() => actions.unset('parent1')>
+    	  DELETE
+    	</button>
+      </span>
+      <span>{value}</span>
+    </div>
+  )
 }
 ```
