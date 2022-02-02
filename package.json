@@ -1,7 +1,7 @@
 {
   "name": "universal-reducer",
-  "version": "7.0.0",
-  "description": "Reducer that can update the store using object paths",
+  "version": "7.0.1",
+  "description": "Reducer that can update and access the store using object paths",
   "main": "index",
   "scripts": {
     "build": "npx tsc"
