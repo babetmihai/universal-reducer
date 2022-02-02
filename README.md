@@ -10,7 +10,7 @@ npm instal save universal-reducer
 
 ```
 import { createStore } from 'redux'
-import { universalReducer, createActions } from 'universal-reducer'
+import universalReducer, { createActions } from 'universal-reducer'
 
 const store = createStore(universalReducer)
 export const actions = createActions(store)
@@ -106,7 +106,7 @@ https://redux.js.org/introduction/getting-started#basic-example
 
 ```
 import { createStore } from 'redux'
-import { universalReducer, createActions } from 'universal-reducer'
+import universalReducer, { createActions } from 'universal-reducer'
 
 const store = createStore(universalReducer)
 export const actions = createActions(store)
