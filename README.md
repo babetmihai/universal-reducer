@@ -173,7 +173,9 @@ console.log(value) // `Jane`
 ## React Usage
 
 This implementation requires `react-redux` to be set up on your project, using the universal reducer and store.
+
 https://redux.js.org/introduction/getting-started#basic-example
+
 https://react-redux.js.org/introduction/getting-started
 
 `store.js`
