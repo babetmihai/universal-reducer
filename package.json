@@ -1,6 +1,6 @@
 {
   "name": "universal-reducer",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "description": "Reducer that can update and access the store using object paths",
   "main": "index",
   "scripts": {
