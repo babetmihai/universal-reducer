@@ -3,7 +3,7 @@ Reducer and actions that set and get the value at path of the state object using
 ## Instalation
 
 ```
-npm instal save universal-reducer
+npm instal -S redux react-redux universal-reducer
 ```
 
 ## Setup
@@ -23,17 +23,46 @@ export default store
 Sets the value at path of the state object. If a portion of path doesn't exist, it's created.
 https://lodash.com/docs/4.17.21#set
 
-```
-actions.set('parent.child1.child2', '123')
-```
+`Initial state:`
 
 ```
-console.log(store.getState())
+{}
+```
 
+`Action I:`
+
+```
+actions.set('parent.child.grandchild', 'Mike')
+```
+
+`State after action I:`
+
+```
 {
   parent: {
-    child1: {
-      child2: '123'
+    child: {
+      grandchild: 'Mike'
+    }
+  }
+}
+```
+
+`Action II:`
+
+```
+actions.set('parent.brother', { nephew: 'John' })
+```
+
+`State after actions I and II:`
+
+```
+{
+  parent: {
+    brother: {
+        nephew: 'John'
+    },
+    child: {
+      grandchild: 'Mike'
     }
   }
 }
@@ -44,18 +73,31 @@ console.log(store.getState())
 This method is like set except that accepts updater to produce the value to set.
 https://lodash.com/docs/4.17.21#update
 
-```
-actions.update('parent.child1', (value) => ({ ...value, child3: '234' }))
-```
+`Initial state:`
 
 ```
-console.log(store.getState())
-
 {
   parent: {
-    child1: {
-      child2: '123',
-      child3: '234'
+    child: {
+      grandchild: 'Mike'
+    }
+  }
+}
+```
+
+`Action:`
+
+```
+actions.update('parent.child.grandchild', (value) => value + ' Junior')
+```
+
+`State after action:`
+
+```
+{
+  parent: {
+    child: {
+      grandchild: 'Mike Junior'
     }
   }
 }
@@ -66,18 +108,31 @@ console.log(store.getState())
 Removes the property at path of the state object.
 https://lodash.com/docs/4.17.21#unset
 
-```
-actions.unset('parent.child1.child2')
-```
+`Initial state:`
 
 ```
-console.log(store.getState())
-
 {
   parent: {
-    child1: {
-      child3: '234'
+    brother: 'John',
+    child: {
+      grandchild: 'Mike',
     }
+  }
+}
+```
+
+`Action:`
+
+```
+actions.unset('parent.child')
+```
+
+`State after action:`
+
+```
+{
+  parent: {
+    brother: 'John'
   }
 }
 ```
@@ -87,16 +142,32 @@ console.log(store.getState())
 Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place.
 https://lodash.com/docs/4.17.21#get
 
-```
-const child = actions.get('parent.child1.child3')
-
-console.log(child) // 234
-```
+`State:`
 
 ```
-const child = actions.get('parent.child4', 'defaultValue')
+{
+  parent: {
+    child: {
+      grandchild: 'Mike'
+    }
+  }
+}
+```
 
-console.log(child) // defaultValue
+`Get nested value:`
+
+```
+const value = actions.get('parent.child.grandchild')
+
+console.log(value) // `Mike`
+```
+
+`Get default value:`
+
+```
+const value = actions.get('parent.daughter', 'Jane')
+
+console.log(value) // `Jane`
 ```
 
 ## React Usage
@@ -104,6 +175,8 @@ console.log(child) // defaultValue
 This implementation requires `react-redux` to be set up on your project, using the universal reducer and store.
 https://redux.js.org/introduction/getting-started#basic-example
 https://react-redux.js.org/introduction/getting-started
+
+`store.js`
 
 ```
 import { createStore } from 'redux'
@@ -114,30 +187,49 @@ export const actions = createActions(store)
 export default store
 ```
 
+`index.js`
+
 ```
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import store from './store'
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+document.getElementById("root"));
+```
+
+`App.js`
+
+```
+import { useSelector } from 'react-redux'
 import { actions } from './store'
 
-function Test() {
-  const { value } = useSelector(() => actions.get('parent1.parent2', {}))
+
+export default function App() {
+  const { value } = useSelector(() => actions.get('counters.app', {}))
   return (
     <div>
       <span>
-        <button 
-	  onClick={() => actions.set('parent1.parent2.value', 100)
+        <button
+	  onClick={() => actions.set('counters.app.value', 100)
 	>
     	  SET to 100
     	</button>
     	<button
-    	  onClick={() => actions.update('parent1.parent2.value', (b = 0) => b + 1))
+    	  onClick={() => actions.update('counters.app.value', (b = 0) => b + 1))
     	>
     	  INCREMENT
     	</button>
     	<button
-    	  onClick={() => actions.update('parent1.parent2.value', (b = 0) => b - 1))
-    	> 
+    	  onClick={() => actions.update('counters.app.value', (b = 0) => b - 1))
+    	>
 	  DECREMENT
     	</button>
-    	<button onClick={() => actions.unset('parent1')>
+    	<button onClick={() => actions.unset('counters')>
     	  DELETE
     	</button>
       </span>
