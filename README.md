@@ -209,33 +209,34 @@ document.getElementById("root"));
 `App.js`
 
 ```
-import { useSelector } from 'react-redux'
-import { actions } from './store'
+import React from "react"
+import { useSelector } from "react-redux"
+import { actions } from "./store"
 
 
 export default function App() {
-  const { value } = useSelector(() => actions.get('counters.app', {}))
+  const { value } = useSelector(() => actions.get("counters.app", {}))
   return (
     <div>
       <span>
         <button
-	  onClick={() => actions.set('counters.app.value', 100)
-	>
-    	  SET to 100
-    	</button>
-    	<button
-    	  onClick={() => actions.update('counters.app.value', (b = 0) => b + 1))
-    	>
-    	  INCREMENT
-    	</button>
-    	<button
-    	  onClick={() => actions.update('counters.app.value', (b = 0) => b - 1))
-    	>
-	  DECREMENT
-    	</button>
-    	<button onClick={() => actions.unset('counters')>
-    	  DELETE
-    	</button>
+          onClick={() => actions.set("counters.app.value", 100)}
+        >
+          SET to 100
+        </button>
+        <button
+          onClick={() => actions.update("counters.app.value", (b = 0) => b + 1)}
+        >
+          INCREMENT
+        </button>
+        <button
+          onClick={() => actions.update("counters.app.value", (b = 0) => b - 1)}
+        >
+          DECREMENT
+        </button>
+        <button onClick={() => actions.unset("counters")}>
+          DELETE
+        </button>
       </span>
       <span>{value}</span>
     </div>
