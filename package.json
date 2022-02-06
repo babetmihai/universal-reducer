@@ -1,11 +1,12 @@
 {
   "name": "universal-reducer",
-  "version": "7.0.5",
+  "version": "7.0.6",
   "description": "Reducer that can update and access the store using object paths",
-  "main": "index",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "npx tsc",
-    "prepublish": "npm run build"
+    "prepublish": "tsc"
   },
   "keywords": [
     "redux",
