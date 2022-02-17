@@ -39,7 +39,7 @@ const reducer = (
 
 export const createActions = (store, options: any = {}) => {
   const {
-    idGenerator = () => shortid.generate()
+    keygen = () => shortid.generate()
   } = options
 
   const actions = {
@@ -60,29 +60,30 @@ export const createActions = (store, options: any = {}) => {
     */
     unset: (path: IPath): void => store.dispatch({ type: path, method: UNSET }),
     push: (path, payload) => {
-      const id = idGenerator()
+      const key = keygen()
       if (payload === undefined) {
         return {
-          id,
+          key,
           set: (item: any) => store.dispatch({
-            type: `${path}.${id}`,
+            type: `${path}.${key}`,
             payload: item,
             method: SET
           })
         }
       } else {
         store.dispatch({
-          type: `${path}.${id}`,
+          type: `${path}.${key}`,
           payload,
           method: SET
         })
       }
     },
     ref: (path) => {
-      return Object.keys(actions).reduce((acc, method) => {
-        acc[method] = (_path, ...args) => actions[method](`${path}.${_path}`, ...args)
-        return acc
-      }, {})
+      return Object.keys(actions)
+        .reduce((acc, method) => {
+          acc[method] = (_path, ...args) => actions[method](`${path}.${_path}`, ...args)
+          return acc
+        }, {})
     }
   }
 
