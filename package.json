@@ -28,6 +28,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "shortid": "^2.2.16"
   }
 }
