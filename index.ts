@@ -22,6 +22,13 @@ type IAction = {
 }
 
 type IPath = Array<string | number> | string | number
+type IOptions = {
+  /**
+   *  Random id generator when using the push action. By defaullt, shortid.generate is usedd.
+   */
+  keygen?: Function;
+}
+
 
 const reducer = (
   state: any = {},
@@ -37,7 +44,7 @@ const reducer = (
 };
 
 
-export const createActions = (store, options: any = {}) => {
+export const createActions = (store, options: IOptions = {}) => {
   const {
     keygen = () => shortid.generate()
   } = options
