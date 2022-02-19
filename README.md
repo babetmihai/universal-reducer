@@ -3,16 +3,15 @@ Reducer and actions that set and get the value at path of the state object using
 ## Instalation
 
 ```
-npm instal -S redux react-redux universal-reducer
+npm instal -S universal-reducer
 ```
 
 ## Setup
 
 ```
-import { createStore } from 'redux'
-import universalReducer, { createActions } from 'universal-reducer'
+import { reducer, createStore, createActions } from 'universal-reducer'
 
-const store = createStore(universalReducer)
+const store = createStore(reducer)
 export const actions = createActions(store)
 
 export default store
@@ -172,19 +171,16 @@ console.log(value) // `Jane`
 
 ## React Usage
 
-This implementation requires `react-redux` to be set up on your project, using the universal reducer and store.
-
-https://redux.js.org/introduction/getting-started#basic-example
+This implementation uses `react-redux` unde the hood.
 
 https://react-redux.js.org/introduction/getting-started
 
 `store.js`
 
 ```
-import { createStore } from 'redux'
-import universalReducer, { createActions } from 'universal-reducer'
+import { reducer, createActions, createStore } from 'universal-reducer'
 
-const store = createStore(universalReducer)
+const store = createStore(reducer)
 export const actions = createActions(store)
 export default store
 ```
@@ -194,7 +190,7 @@ export default store
 ```
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
+import { Provider } from 'universal-reducer'
 import App from './App'
 import store from './store'
 
@@ -210,7 +206,7 @@ document.getElementById("root"));
 
 ```
 import React from "react"
-import { useSelector } from "react-redux"
+import { useSelector } from "universal-reducer"
 import { actions } from "./store"
 
 

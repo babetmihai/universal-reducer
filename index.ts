@@ -8,7 +8,7 @@ import unset from "lodash/fp/unset";
 import updateWith from "lodash/fp/updateWith";
 import get from 'lodash/get'
 import shortid from 'shortid'
-
+export * from 'react-redux'
 
 const SET = "@@SET";
 const UPDATE = "@@UPDATE";
@@ -30,7 +30,7 @@ type IOptions = {
 }
 
 
-const reducer = (
+export const reducer = (
   state: any = {},
   action: IAction
 ) => {
@@ -57,15 +57,26 @@ export const createActions = (store, options: IOptions = {}) => {
     /**
      *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
     */
-    set: (path: IPath, payload: any): void => store.dispatch({ type: path, payload, method: SET }),
+    set: (path: IPath, payload: any): void => store.dispatch({
+      type: path,
+      payload,
+      method: SET
+    }),
     /**
      *  This method is like set except that accepts updater to produce the value to set. https://lodash.com/docs/4.17.21#update
     */
-    update: (path: IPath, payload: Function): void => store.dispatch({ type: path, payload, method: UPDATE }),
+    update: (path: IPath, payload: Function): void => store.dispatch({
+      type: path,
+      payload,
+      method: UPDATE
+    }),
     /**
      *  Removes the property at path of state object. https://lodash.com/docs/4.17.21#unset
     */
-    unset: (path: IPath): void => store.dispatch({ type: path, method: UNSET }),
+    unset: (path: IPath): void => store.dispatch({
+      type: path,
+      method: UNSET
+    }),
     /**
      *  Pushes a new value to a key-value object. The key is randomly generated.
      */
@@ -108,8 +119,6 @@ export const createActions = (store, options: IOptions = {}) => {
   return actions
 }
 
-
-export default reducer
 
 
 
