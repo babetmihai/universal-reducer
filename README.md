@@ -169,6 +169,38 @@ const value = actions.get('parent.daughter', 'Jane')
 console.log(value) // `Jane`
 ```
 
+## Path
+Creates a new actions module localized at the path of the state object. 
+
+
+`Initial state:`
+
+```
+{}
+```
+
+`Actions:`
+
+```
+const parentActions = actions.path('parent')
+
+parentActions.set('child.grandchild', 'Mike')
+parentActions.update('child.grandchild', (value) => value + 'Junior')
+```
+
+`State after actions:`
+
+```
+{
+  parent: {
+    child: {
+      grandchild: 'Mike Junior  '
+    }
+  }
+}
+```
+
+
 ## React Usage
 
 This implementation uses `react-redux` unde the hood.
