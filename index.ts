@@ -107,7 +107,7 @@ export const createActions = (store, options: IOptions = {}) => {
     /**
      *  Creates a new actions module localized at the path of the state object. 
      */
-    path: (path: IPath) => {
+    create: (path: IPath) => {
       return Object.keys(actions)
         .reduce((acc, key) => {
           acc[key] = (_path, ...args) => actions[key](`${path}.${_path}`, ...args)

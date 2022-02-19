@@ -169,9 +169,8 @@ const value = actions.get('parent.daughter', 'Jane')
 console.log(value) // `Jane`
 ```
 
-## Path
+## Create
 Creates a new actions module localized at the path of the state object. 
-
 
 `Initial state:`
 
@@ -182,7 +181,7 @@ Creates a new actions module localized at the path of the state object.
 `Actions:`
 
 ```
-const parentActions = actions.path('parent')
+const parentActions = actions.create('parent')
 
 parentActions.set('child.grandchild', 'Mike')
 parentActions.update('child.grandchild', (value) => value + 'Junior')
@@ -200,6 +199,56 @@ parentActions.update('child.grandchild', (value) => value + 'Junior')
 }
 ```
 
+## Push
+Pushes a new value to a key-value object. The key is randomly generated.
+
+
+`Initial state:`
+
+```
+{}
+```
+
+`Action I:`
+
+```
+actions.push('users', { name: 'Mike'})
+```
+
+`State after action I:`
+
+```
+{
+  users: {
+    PPBqWA9: {
+      name: 'Mike'  '
+    }
+  }
+}
+```
+
+`Action II:`
+
+```
+const ref = actions.push('users')
+ref.set({ id: ref.key, name: 'John' })
+```
+
+`State after actions I and II:`
+
+```
+{
+  users: {
+    PPBqWA9: {
+      name: 'Mike'  '
+    }
+    eWRhpRV: {
+      id: 'eWRhpRV',
+      name: 'John'
+    }
+  }
+}
+```
 
 ## React Usage
 
