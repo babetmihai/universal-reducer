@@ -193,7 +193,7 @@ parentActions.update('child.grandchild', (value) => value + 'Junior')
 {
   parent: {
     child: {
-      grandchild: 'Mike Junior  '
+      grandchild: 'Mike Junior'
     }
   }
 }
@@ -212,7 +212,7 @@ Pushes a new value to a key-value object. The key is randomly generated.
 `Action I:`
 
 ```
-actions.push('users', { name: 'Mike'})
+actions.push('users', { name: 'Mike' })
 ```
 
 `State after action I:`
