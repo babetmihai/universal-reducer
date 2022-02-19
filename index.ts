@@ -59,29 +59,40 @@ export const createActions = (store, options: any = {}) => {
      *  Removes the property at path of state object. https://lodash.com/docs/4.17.21#unset
     */
     unset: (path: IPath): void => store.dispatch({ type: path, method: UNSET }),
-    push: (path, payload) => {
-      const key = keygen()
-      if (payload === undefined) {
+    /**
+     *  Pushes a new value to a key-value object. The key is randomly generated.
+     */
+    push: (...args: [path: IPath, payload?: any]) => {
+      const key: IPath = keygen()
+
+      if (args.length === 1) {
+        const [path] = args
         return {
           key,
-          set: (item: any) => store.dispatch({
+          set: (value: any): void => store.dispatch({
             type: `${path}.${key}`,
-            payload: item,
+            payload: value,
             method: SET
           })
         }
-      } else {
-        store.dispatch({
+      }
+
+      if (args.length > 1) {
+        const [path, payload] = args
+        return store.dispatch({
           type: `${path}.${key}`,
           payload,
           method: SET
         })
       }
     },
-    ref: (path) => {
+    /**
+     *  Creates a new actions module localized at the path of the state object. 
+     */
+    path: (path: IPath) => {
       return Object.keys(actions)
-        .reduce((acc, method) => {
-          acc[method] = (_path, ...args) => actions[method](`${path}.${_path}`, ...args)
+        .reduce((acc, key) => {
+          acc[key] = (_path, ...args) => actions[key](`${path}.${_path}`, ...args)
           return acc
         }, {})
     }
