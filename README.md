@@ -178,22 +178,21 @@ Creates a new actions module localized at the path of the state object.
 {}
 ```
 
-`Actions:`
+`Action:`
 
 ```
 const parentActions = actions.create('parent')
 
 parentActions.set('child.grandchild', 'Mike')
-parentActions.update('child.grandchild', (value) => value + 'Junior')
 ```
 
-`State after actions:`
+`State after action:`
 
 ```
 {
   parent: {
     child: {
-      grandchild: 'Mike Junior'
+      grandchild: 'Mike'
     }
   }
 }
