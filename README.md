@@ -252,9 +252,7 @@ ref.set({ id: ref.key, name: 'John' })
 
 ## React Usage
 
-This implementation uses `react-redux` unde the hood.
-
-https://react-redux.js.org/introduction/getting-started
+This implementation uses `react-redux` under the hood. https://react-redux.js.org/introduction/getting-started
 
 `store.js`
 
