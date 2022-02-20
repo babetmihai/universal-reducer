@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "react-redux": "^7.2.6",
-    "shortid": "^2.2.16"
+    "react-redux": "^7.2.6"
   }
 }
