@@ -1,6 +1,6 @@
 Reducer and actions that set and get the value at path of the state object using lodash.
 
-## Instalation
+## Installation
 
 ```
 npm install -S universal-reducer
