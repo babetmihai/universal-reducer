@@ -46,7 +46,7 @@ export const reducer = (
       if (isNil(path)) {
         if (isFunction(payload)) return payload(state)
         if (isPlainObject(state) && isPlainObject(payload)) {
-          return { ...payload, ...payload }
+          return { ...state, ...payload }
         }
         return payload
       } else {
