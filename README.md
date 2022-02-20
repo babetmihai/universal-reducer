@@ -181,21 +181,27 @@ Creates a new actions module localized at the path of the state object.
 `Action:`
 
 ```
-const parentActions = actions.create('parent')
+const layoutActions = actions.create('layout')
 
-parentActions.set('child.grandchild', 'Mike')
+layoutActions.set('collapsed', true)
 ```
 
 `State after action:`
 
 ```
 {
-  parent: {
-    child: {
-      grandchild: 'Mike'
-    }
+  layout: {
+    collapsed: true
   }
 }
+```
+
+`Get module value:`
+
+```
+const layout = layoutActions.get()
+
+console.log(layout) // { collapsed: true }
 ```
 
 
