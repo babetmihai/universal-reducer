@@ -1,6 +1,6 @@
 {
   "name": "universal-reducer",
-  "version": "8.0.4",
+  "version": "8.0.5",
   "description": "Reducer that can update and access the store using object paths",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

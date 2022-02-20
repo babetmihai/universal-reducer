@@ -3,7 +3,7 @@ Reducer and actions that set and get the value at path of the state object using
 ## Instalation
 
 ```
-npm instal -S universal-reducer
+npm install -S universal-reducer
 ```
 
 ## Setup
