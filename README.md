@@ -145,9 +145,11 @@ https://lodash.com/docs/4.17.21#get
 
 ```
 {
-  parent: {
-    child: {
-      grandchild: 'Mike'
+  pages: {
+    subPages: {
+      homepage: {
+        name: 'Home'
+      }
     }
   }
 }
@@ -156,15 +158,15 @@ https://lodash.com/docs/4.17.21#get
 `Get nested value:`
 
 ```
-const value = actions.get('parent.child.grandchild')
+const value = actions.get('pages.subPages.homepage.name')
 
-console.log(value) // `Mike`
+console.log(value) // 'Home'
 ```
 
 `Get default value:`
 
 ```
-const value = actions.get('parent.daughter', 'Jane')
+const value = actions.get('pages.missingkey', 'Jane')
 
 console.log(value) // `Jane`
 ```
