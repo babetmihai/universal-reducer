@@ -8,7 +8,9 @@ import unset from "lodash/fp/unset";
 import updateWith from "lodash/fp/updateWith";
 import get from 'lodash/get'
 import shortid from 'shortid'
+export * from 'redux'
 export * from 'react-redux'
+
 
 const SET = "@@SET";
 const UPDATE = "@@UPDATE";
