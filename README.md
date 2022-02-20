@@ -198,56 +198,6 @@ parentActions.set('child.grandchild', 'Mike')
 }
 ```
 
-## Push
-Pushes a new value to a key-value object. The key is randomly generated.
-
-
-`Initial state:`
-
-```
-{}
-```
-
-`Action I:`
-
-```
-actions.push('users', { name: 'Mike' })
-```
-
-`State after action I:`
-
-```
-{
-  users: {
-    PPBqWA9: {
-      name: 'Mike'  '
-    }
-  }
-}
-```
-
-`Action II:`
-
-```
-const ref = actions.push('users')
-ref.set({ id: ref.key, name: 'John' })
-```
-
-`State after actions I and II:`
-
-```
-{
-  users: {
-    PPBqWA9: {
-      name: 'Mike'  '
-    }
-    eWRhpRV: {
-      id: 'eWRhpRV',
-      name: 'John'
-    }
-  }
-}
-```
 
 ## React Usage
 

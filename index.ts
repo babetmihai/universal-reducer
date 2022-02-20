@@ -7,7 +7,6 @@ import setWith from "lodash/fp/setWith";
 import unset from "lodash/fp/unset";
 import updateWith from "lodash/fp/updateWith";
 import get from 'lodash/get'
-import shortid from 'shortid'
 export * from 'redux'
 export * from 'react-redux'
 
@@ -24,12 +23,6 @@ type IAction = {
 }
 
 type IPath = Array<string | number> | string | number
-type IOptions = {
-  /**
-   *  Random id generator when using the push action. By defaullt, shortid.generate is usedd.
-   */
-  keygen?: Function;
-}
 
 
 export const reducer = (
@@ -46,11 +39,7 @@ export const reducer = (
 };
 
 
-export const createActions = (store, options: IOptions = {}) => {
-  const {
-    keygen = () => shortid.generate()
-  } = options
-
+export const createActions = (store) => {
   const actions = {
     /**
      *  Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
@@ -79,33 +68,6 @@ export const createActions = (store, options: IOptions = {}) => {
       type: path,
       method: UNSET
     }),
-    /**
-     *  Pushes a new value to a key-value object. The key is randomly generated.
-     */
-    push: (...args: [path: IPath, payload?: any]) => {
-      const key: IPath = keygen()
-
-      if (args.length === 1) {
-        const [path] = args
-        return {
-          key,
-          set: (value: any): void => store.dispatch({
-            type: `${path}.${key}`,
-            payload: value,
-            method: SET
-          })
-        }
-      }
-
-      if (args.length > 1) {
-        const [path, payload] = args
-        return store.dispatch({
-          type: `${path}.${key}`,
-          payload,
-          method: SET
-        })
-      }
-    },
     /**
      *  Creates a new actions module localized at the path of the state object. 
      */
