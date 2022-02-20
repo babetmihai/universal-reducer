@@ -153,7 +153,7 @@ export const createActions = (store) => {
           acc[actionKey] = (...args) => {
             switch (actionKey) {
               case ('get'): {
-                if (args.length === 0) return actions[actionKey](modulePath)
+                if (args.length === 0) return actions[actionKey](modulePath, EMPTY_OBJECT)
                 if (args.length > 0) {
                   const [path, defaultValue] = args
                   return actions[actionKey](`${modulePath}.${path}`, defaultValue)
