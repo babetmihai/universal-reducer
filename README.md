@@ -198,12 +198,20 @@ layoutActions.set('collapsed', true)
 }
 ```
 
-`Get module value:`
+`Get module values:`
 
 ```
 const layout = layoutActions.get()
 
 console.log(layout) // { collapsed: true }
+```
+
+`Get module value at path:`
+
+```
+const collapsed = layoutActions.get('collapsed')
+
+console.log(collapsed) // true
 ```
 
 
