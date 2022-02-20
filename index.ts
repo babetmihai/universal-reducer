@@ -106,7 +106,7 @@ export const createActions = (store) => {
     /**
      *  This method is like set except that accepts updater to produce the value to set. https://lodash.com/docs/4.17.21#update
     */
-    update: (...args: [path: IPath, payload: Function] | [payload: Function]): void => {
+    update: (...args: [path: IPath, payload: Function | object] | [payload: Function | object]): void => {
       if (args.length === 1) {
         const [payload] = args
         store.dispatch({
