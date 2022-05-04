@@ -192,7 +192,7 @@ export const createActions = (store) => {
             }
           }
           return acc
-        }, {})
+        }, actions)
     }
   }
 
