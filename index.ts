@@ -28,6 +28,7 @@ type IAction = {
   payload: any;
 }
 
+
 type IPath = Array<string | number> | string | number
 
 
@@ -69,16 +70,24 @@ export const reducer = (
 };
 
 
-export const createActions = (store) => {
-  const actions = {
+
+
+const pathJoin = (...args) => {
+  return args.filter(Boolean).flat()
+}
+
+export const createActions = (store, basePath?) => {
+  return {
     /**
      *  Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
     */
     get: (...args: [path: IPath, defautValue?: any] | []): any => {
-      if (args.length === 0) return store.getState()
+      let state = store.getState()
+      if (basePath) state = get(state, basePath)
+      if (args.length === 0) return state
       if (args.length > 0) {
         const [path, defaultValue] = args
-        return get(store.getState(), path, defaultValue)
+        return get(state, path, defaultValue)
       }
     },
     /**
@@ -90,14 +99,15 @@ export const createActions = (store) => {
         store.dispatch({
           type: 'Set',
           payload,
-          method: SET
+          method: SET,
+          path: basePath
         })
       }
       if (args.length > 1) {
         const [path, payload] = args
         store.dispatch({
           type: `Set: ${path}`,
-          path,
+          path: pathJoin(basePath, path),
           payload,
           method: SET
         })
@@ -112,14 +122,15 @@ export const createActions = (store) => {
         store.dispatch({
           type: 'Update',
           payload,
-          method: UPDATE
+          method: UPDATE,
+          path: basePath
         })
       }
       if (args.length > 1) {
         const [path, payload] = args
         store.dispatch({
           type: `Update: ${path}`,
-          path,
+          path: pathJoin(basePath, path),
           payload,
           method: UPDATE
         })
@@ -132,14 +143,15 @@ export const createActions = (store) => {
       if (args.length === 0) {
         store.dispatch({
           type: `Unset`,
-          method: UNSET
+          method: UNSET,
+          path: basePath
         })
       }
       if (args.length > 0) {
         const [path] = args
         store.dispatch({
           type: `Unset: ${path}`,
-          path,
+          path: pathJoin(basePath, path),
           method: UNSET
         })
       }
@@ -147,58 +159,6 @@ export const createActions = (store) => {
     /**
      *  Creates a new actions module localized at the path of the state object. 
      */
-    create: (modulePath: IPath) => {
-      return Object.keys(actions)
-        .reduce((acc, actionKey) => {
-          acc[actionKey] = (...args) => {
-            switch (actionKey) {
-              case ('get'): {
-                if (args.length === 0) return actions[actionKey](modulePath, EMPTY_OBJECT)
-                if (args.length > 0) {
-                  const [path, defaultValue] = args
-                  return actions[actionKey](`${modulePath}.${path}`, defaultValue)
-                }
-                break
-              }
-              case ('update'):
-              case ('set'): {
-                if (args.length === 1) {
-                  const [payload] = args
-                  return actions[actionKey](modulePath, payload)
-                }
-                if (args.length > 1) {
-                  const [path, payload] = args
-                  return actions[actionKey](`${modulePath}.${path}`, payload)
-                }
-                break
-              }
-              case ('unset'): {
-                if (args.length === 0) {
-                  return actions[actionKey](modulePath)
-                }
-                if (args.length > 0) {
-                  const [path] = args
-                  return actions[actionKey](`${modulePath}.${path}`)
-                }
-                break
-              }
-              case ('create'): {
-                const [path] = args
-                return actions[actionKey](`${modulePath}.${path}`)
-              }
-              default: {
-                // do nothing
-              }
-            }
-          }
-          return acc
-        }, actions)
-    }
+    create: (modulePath: IPath) => createActions(store, pathJoin(basePath, modulePath))
   }
-
-  return actions
 }
-
-
-
-
