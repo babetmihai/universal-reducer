@@ -76,89 +76,87 @@ const pathJoin = (...args) => {
   return args.filter(Boolean).flat()
 }
 
-export const createActions = (store, basePath?) => {
-  return {
-    /**
-     *  Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
-    */
-    get: (...args: [path: IPath, defautValue?: any] | []): any => {
-      let state = store.getState()
-      if (basePath) state = get(state, basePath)
-      if (args.length === 0) return state
-      if (args.length > 0) {
-        const [path, defaultValue] = args
-        return get(state, path, defaultValue)
-      }
-    },
-    /**
-     *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
-    */
-    set: (...args: [path: IPath, payload: any] | [payload: any]): void => {
-      if (args.length === 1) {
-        const [payload] = args
-        store.dispatch({
-          type: 'Set',
-          payload,
-          method: SET,
-          path: basePath
-        })
-      }
-      if (args.length > 1) {
-        const [path, payload] = args
-        store.dispatch({
-          type: `Set: ${path}`,
-          path: pathJoin(basePath, path),
-          payload,
-          method: SET
-        })
-      }
-    },
-    /**
-     *  This method is like set except that accepts updater to produce the value to set. https://lodash.com/docs/4.17.21#update
-    */
-    update: (...args: [path: IPath, payload: Function | object] | [payload: Function | object]): void => {
-      if (args.length === 1) {
-        const [payload] = args
-        store.dispatch({
-          type: 'Update',
-          payload,
-          method: UPDATE,
-          path: basePath
-        })
-      }
-      if (args.length > 1) {
-        const [path, payload] = args
-        store.dispatch({
-          type: `Update: ${path}`,
-          path: pathJoin(basePath, path),
-          payload,
-          method: UPDATE
-        })
-      }
-    },
-    /**
-     *  Removes the property at path of state object. https://lodash.com/docs/4.17.21#unset
-    */
-    unset: (...args: [path: IPath] | []): void => {
-      if (args.length === 0) {
-        store.dispatch({
-          type: `Unset`,
-          method: UNSET,
-          path: basePath
-        })
-      }
-      if (args.length > 0) {
-        const [path] = args
-        store.dispatch({
-          type: `Unset: ${path}`,
-          path: pathJoin(basePath, path),
-          method: UNSET
-        })
-      }
-    },
-    /**
-     *  Creates a new actions module localized at the path of the state object. 
-     */
-    create: (modulePath: IPath) => createActions(store, pathJoin(basePath, modulePath))
-  }
-}
+export const createActions = (store, basePath?) => ({
+  /**
+   *  Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
+  */
+  get: (...args: [path: IPath, defautValue?: any] | []): any => {
+    let state = store.getState()
+    if (basePath) state = get(state, basePath, EMPTY_OBJECT)
+    if (args.length === 0) return state
+    if (args.length > 0) {
+      const [path, defaultValue] = args
+      return get(state, path, defaultValue)
+    }
+  },
+  /**
+   *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
+  */
+  set: (...args: [path: IPath, payload: any] | [payload: any]): void => {
+    if (args.length === 1) {
+      const [payload] = args
+      store.dispatch({
+        type: 'Set',
+        payload,
+        method: SET,
+        path: basePath
+      })
+    }
+    if (args.length > 1) {
+      const [path, payload] = args
+      store.dispatch({
+        type: `Set: ${path}`,
+        path: pathJoin(basePath, path),
+        payload,
+        method: SET
+      })
+    }
+  },
+  /**
+   *  This method is like set except that accepts updater to produce the value to set. https://lodash.com/docs/4.17.21#update
+  */
+  update: (...args: [path: IPath, payload: Function | object] | [payload: Function | object]): void => {
+    if (args.length === 1) {
+      const [payload] = args
+      store.dispatch({
+        type: 'Update',
+        payload,
+        method: UPDATE,
+        path: basePath
+      })
+    }
+    if (args.length > 1) {
+      const [path, payload] = args
+      store.dispatch({
+        type: `Update: ${path}`,
+        path: pathJoin(basePath, path),
+        payload,
+        method: UPDATE
+      })
+    }
+  },
+  /**
+   *  Removes the property at path of state object. https://lodash.com/docs/4.17.21#unset
+  */
+  unset: (...args: [path: IPath] | []): void => {
+    if (args.length === 0) {
+      store.dispatch({
+        type: `Unset`,
+        method: UNSET,
+        path: basePath
+      })
+    }
+    if (args.length > 0) {
+      const [path] = args
+      store.dispatch({
+        type: `Unset: ${path}`,
+        path: pathJoin(basePath, path),
+        method: UNSET
+      })
+    }
+  },
+  /**
+   *  Creates a new actions module localized at the path of the state object. 
+   */
+  create: (modulePath: IPath) => createActions(store, pathJoin(basePath, modulePath))
+})
