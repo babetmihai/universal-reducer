@@ -3,6 +3,7 @@
   This will use the lodash _.get, _.set, _.unset and _.update syntax to interact with the state
   https://lodash.com/docs/4.17.21#set
 */
+import isString from "lodash/isString";
 import setWith from "lodash/fp/setWith";
 import castArray from "lodash/castArray";
 import defaultTo from 'lodash/defaultTo'
@@ -15,7 +16,7 @@ import isPlainObject from 'lodash/isPlainObject'
 import isEmpty from 'lodash/isEmpty'
 import { legacy_createStore } from 'redux'
 import { useSelector as useLegacySelector } from 'react-redux'
-import { isString } from "lodash";
+
 export * from 'redux'
 export * from 'react-redux'
 
