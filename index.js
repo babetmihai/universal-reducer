@@ -136,9 +136,9 @@ const _createActions = (store, basePath = '') => {
       store.dispatch({ type: `Unset ${stringify(path)}`, path, method: UNSET })
     },
     /**
-     *  Removes the property at path of state object. https://lodash.com/docs/4.17.21#unset
+     *  Creates new actions module with a base path
     */
-    create: (path) => _createActions(store, join(_basePath, path))
+    create: (basePath) => _createActions(store, join(_basePath, basePath))
   }
 
   return actions
