@@ -2,12 +2,8 @@
   "name": "universal-reducer",
   "version": "10.0.0",
   "description": "Reducer that can update and access the store using object paths",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "npx tsc",
-    "prepublish": "tsc"
-  },
+  "main": "index.js",
+  "scripts": {},
   "keywords": [
     "redux",
     "reducer",
@@ -23,9 +19,6 @@
   "license": "MIT",
   "engines": {
     "node": ">=6"
-  },
-  "devDependencies": {
-    "typescript": "^4.5.5"
   },
   "dependencies": {
     "lodash": "^4.17.21",

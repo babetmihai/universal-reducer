@@ -25,19 +25,11 @@ const UPDATE = "@@UPDATE";
 const UNSET = "@@UNSET";
 
 
-type IAction = {
-  type: any;
-  method: string;
-  path: IPath;
-  payload: any;
-}
-
-type IPath = any
 
 
 export const reducer = (
-  state: any = EMPTY_OBJECT,
-  action: IAction
+  state = EMPTY_OBJECT,
+  action
 ) => {
   const { path, method, payload } = action
   switch (method) {
@@ -72,14 +64,14 @@ export const reducer = (
   }
 };
 
-const join = (first: IPath, second: IPath) => {
+const join = (first, second) => {
   const _path =  [first, second].filter(Boolean).flat()
   if (!isEmpty(_path)) return _path
   return undefined
 }
 
 
-export const useSelector = (selector, defaultValue?) => {
+export const useSelector = (selector, defaultValue) => {
   let value
   if (isFunction(selector)) {
     value = useLegacySelector(selector)
@@ -97,7 +89,7 @@ export const createActions = (store) => {
     /**
      *  Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
     */
-    get: (...args: [path: IPath, defautValue?: any] | []): any => {
+    get: (...args) => {
       if (args.length === 0) return store.getState()
       if (args.length > 0) {
         const [_path, defaultValue] = args
@@ -108,7 +100,7 @@ export const createActions = (store) => {
     /**
      *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
     */
-    set: (...args: [path: IPath, payload: any] | [payload: any]): void => {
+    set: (...args) => {
       let _path = ''
       let [payload] = args
       if (args.length > 1) [_path, payload] = args
@@ -124,7 +116,7 @@ export const createActions = (store) => {
     /**
      *  This method is like set except that accepts updater to produce the value to set. https://lodash.com/docs/4.17.21#update
     */
-    update: (...args: [path: IPath, payload: Function | object] | [payload: Function | object]): void => {
+    update: (...args) => {
       let _path = ''
       let [payload] = args
       if (args.length > 1) [_path, payload] = args
@@ -139,7 +131,7 @@ export const createActions = (store) => {
     /**
      *  Removes the property at path of state object. https://lodash.com/docs/4.17.21#unset
     */
-    unset: (...args: [path: IPath] | []): void => {
+    unset: (...args) => {
       const [_path] = args
       const path = join(store.basePath, _path)
       store.dispatch({ type: `Unset ${path}`, path, method: UNSET })
