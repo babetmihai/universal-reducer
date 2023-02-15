@@ -15,6 +15,7 @@ import isPlainObject from 'lodash/isPlainObject'
 import isEmpty from 'lodash/isEmpty'
 import { legacy_createStore } from 'redux'
 import { useSelector as useLegacySelector } from 'react-redux'
+import { isString } from "lodash";
 export * from 'redux'
 export * from 'react-redux'
 
@@ -146,8 +147,10 @@ export const createActions = (store, basePath = '') => {
 const join = (...args) => {
   const _path = args
     .filter(Boolean)
-    .flat()
-    .map((path) => path.split('.'))
+    .map((path) => {
+      if (isString(path)) return path.split('.')
+      return path
+    })
     .flat()
     
   if (!isEmpty(_path)) return _path
