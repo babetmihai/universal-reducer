@@ -64,8 +64,8 @@ export const reducer = (
   }
 };
 
-const join = (first, second) => {
-  const _path =  [first, second].filter(Boolean).flat()
+const join = (...args) => {
+  const _path = args.filter(Boolean).flat()
   if (!isEmpty(_path)) return _path
   return undefined
 }
@@ -90,12 +90,11 @@ export const createActions = (store) => {
      *  Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
     */
     get: (...args) => {
-      if (args.length === 0) return store.getState()
-      if (args.length > 0) {
-        const [_path, defaultValue] = args
-        const path = join(store.basePath, _path)
-        return get(store.getState(), path, defaultValue)
-      }
+      let _path = ''
+      if (args.length > 0) [_path, defaultValue] = args
+      const path = join(actions.basePath, _path)
+      if (!path) return store.getState()
+      return get(store.getState(), path, defaultValue)
     },
     /**
      *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
@@ -105,7 +104,7 @@ export const createActions = (store) => {
       let [payload] = args
       if (args.length > 1) [_path, payload] = args
 
-      const path = join(store.basePath, _path)
+      const path = join(actions.basePath, _path)
       store.dispatch({
         type: `Set ${path}`,
         payload,
@@ -120,7 +119,7 @@ export const createActions = (store) => {
       let _path = ''
       let [payload] = args
       if (args.length > 1) [_path, payload] = args
-      const path = join(store.basePath, _path)
+      const path = join(actions.basePath, _path)
       store.dispatch({
         type: `Update ${path}`,
         path,
@@ -133,7 +132,7 @@ export const createActions = (store) => {
     */
     unset: (...args) => {
       const [_path] = args
-      const path = join(store.basePath, _path)
+      const path = join(actions.basePath, _path)
       store.dispatch({ type: `Unset ${path}`, path, method: UNSET })
     },
     /**
