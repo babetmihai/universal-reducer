@@ -1,6 +1,6 @@
 {
   "name": "universal-reducer",
-  "version": "9.1.0",
+  "version": "10.0.0",
   "description": "Reducer that can update and access the store using object paths",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "react-redux": "^7.2.6"
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1"
   }
 }
