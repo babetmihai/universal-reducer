@@ -144,7 +144,12 @@ export const createActions = (store, basePath = '') => {
 
 
 const join = (...args) => {
-  const _path = args.filter(Boolean).flat()
+  const _path = args
+    .filter(Boolean)
+    .flat()
+    .map((path) => path.split('.'))
+    .flat()
+    
   if (!isEmpty(_path)) return _path
   return undefined
 }
