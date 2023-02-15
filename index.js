@@ -4,6 +4,7 @@
   https://lodash.com/docs/4.17.21#set
 */
 import setWith from "lodash/fp/setWith";
+import castArray from "lodash/castArray";
 import defaultTo from 'lodash/defaultTo'
 import unset from "lodash/fp/unset";
 import updateWith from "lodash/fp/updateWith";
@@ -89,7 +90,7 @@ const _createActions = (store, basePath = '') => {
     */
     get: (...args) => {
       let _path = ''
-      let defaultValue
+      let defaultValue = {}
       if (args.length > 0) [_path, defaultValue] = args
       const path = join(_basePath, _path)
       if (!path) return store.getState()
@@ -105,7 +106,7 @@ const _createActions = (store, basePath = '') => {
 
       const path = join(_basePath, _path)
       store.dispatch({
-        type: `Set ${path}`,
+        type: `Set ${stringify(path)}`,
         payload,
         path,
         method: SET
@@ -120,7 +121,7 @@ const _createActions = (store, basePath = '') => {
       if (args.length > 1) [_path, payload] = args
       const path = join(_basePath, _path)
       store.dispatch({
-        type: `Update ${path}`,
+        type: `Update ${stringify(path)}`,
         path,
         payload,
         method: UPDATE
@@ -132,7 +133,7 @@ const _createActions = (store, basePath = '') => {
     unset: (...args) => {
       const [_path] = args
       const path = join(_basePath, _path)
-      store.dispatch({ type: `Unset ${path}`, path, method: UNSET })
+      store.dispatch({ type: `Unset ${stringify(path)}`, path, method: UNSET })
     },
     /**
      *  Removes the property at path of state object. https://lodash.com/docs/4.17.21#unset
@@ -149,3 +150,6 @@ const join = (...args) => {
   if (!isEmpty(_path)) return _path
   return undefined
 }
+
+
+const stringify = (path) => castArray(path).filter(Boolean).join('.')
