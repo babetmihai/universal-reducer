@@ -136,7 +136,7 @@ export const createActions = (store, basePath = '') => {
     /**
      *  Creates new actions module with a base path
     */
-    create: (basePath) => _createActions(store, join(_basePath, basePath))
+    create: (basePath) => createActions(store, join(_basePath, basePath))
   }
 
   return actions
