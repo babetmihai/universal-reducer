@@ -79,10 +79,8 @@ export const useSelector = (selector, defaultValue) => {
 
 export const createStore = legacy_createStore
 
-export const createActions = (store) => _createActions(store)
 
-
-const _createActions = (store, basePath = '') => {
+export const createActions = (store, basePath = '') => {
   const _basePath = basePath
   const actions = {
     /**
