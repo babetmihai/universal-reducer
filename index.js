@@ -87,7 +87,7 @@ export const createActions = (store, basePath) => {
     */
     get: (...args) => {
       let _path
-      let defaultValue = {}
+      let defaultValue = EMPTY_OBJECT
       if (args.length > 0) [_path, defaultValue] = args
       const path = join(_basePath, _path)
       if (!path) return store.getState()
