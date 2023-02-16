@@ -15,7 +15,7 @@ import isFunction from 'lodash/isFunction'
 import isPlainObject from 'lodash/isPlainObject'
 import isEmpty from 'lodash/isEmpty'
 import { legacy_createStore } from 'redux'
-import { useSelector as useLegacySelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 export * from 'redux'
 export * from 'react-redux'
