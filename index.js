@@ -14,7 +14,7 @@ import isFunction from 'lodash/isFunction'
 import isPlainObject from 'lodash/isPlainObject'
 import isEmpty from 'lodash/isEmpty'
 import { legacy_createStore } from 'redux'
-import { useSelector } from 'react-redux'
+
 
 export * from 'redux'
 export * from 'react-redux'
@@ -78,13 +78,6 @@ export const createActions = (store, basePath) => {
       const path = join(_basePath, _path)
       if (!path) return store.getState()
       return get(store.getState(), path, defaultValue)
-    },
-    /**
-     *  Selects the value at path of the state object using useSelector and get. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
-    */
-    useState: (...args) => {
-      const value = useSelector(() => actions.get(...args))
-      return value
     },
     /**
      *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
