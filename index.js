@@ -6,7 +6,6 @@
 import isString from "lodash/isString";
 import setWith from "lodash/fp/setWith";
 import castArray from "lodash/castArray";
-import defaultTo from 'lodash/defaultTo'
 import unset from "lodash/fp/unset";
 import updateWith from "lodash/fp/updateWith";
 import get from 'lodash/get'
