@@ -28,10 +28,7 @@ const UPDATE = "@@UPDATE";
 const UNSET = "@@UNSET";
 
 
-export const reducer = (
-  state = EMPTY_OBJECT,
-  action
-) => {
+export const reducer = (state = EMPTY_OBJECT, action) => {
   const { path, method, payload } = action
   switch (method) {
     case SET: {
@@ -66,16 +63,6 @@ export const reducer = (
 };
 
 
-export const useSelector = (selector, defaultValue) => {
-  let value
-  if (isFunction(selector)) {
-    value = useLegacySelector(selector)
-  } else {
-    value = useLegacySelector((state) => get(state, selector))
-  }
-  return defaultTo(value, defaultValue)
-}
-
 export const createStore = legacy_createStore
 
 
@@ -92,6 +79,13 @@ export const createActions = (store, basePath) => {
       const path = join(_basePath, _path)
       if (!path) return store.getState()
       return get(store.getState(), path, defaultValue)
+    },
+    /**
+     *  Selects the value at path of the state object using useSelector and get. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
+    */
+    useState: (...args) => {
+      const value = useSelector(() => actions.get(...args))
+      return value
     },
     /**
      *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
