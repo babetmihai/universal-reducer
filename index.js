@@ -28,8 +28,6 @@ const UPDATE = "@@UPDATE";
 const UNSET = "@@UNSET";
 
 
-
-
 export const reducer = (
   state = EMPTY_OBJECT,
   action
@@ -68,7 +66,6 @@ export const reducer = (
 };
 
 
-
 export const useSelector = (selector, defaultValue) => {
   let value
   if (isFunction(selector)) {
@@ -82,14 +79,14 @@ export const useSelector = (selector, defaultValue) => {
 export const createStore = legacy_createStore
 
 
-export const createActions = (store, basePath = '') => {
+export const createActions = (store, basePath) => {
   const _basePath = basePath
   const actions = {
     /**
      *  Gets the value at path of the state object. If the resolved value is undefined, the defaultValue is returned in its place. https://lodash.com/docs/4.17.21#get
     */
     get: (...args) => {
-      let _path = ''
+      let _path
       let defaultValue = {}
       if (args.length > 0) [_path, defaultValue] = args
       const path = join(_basePath, _path)
@@ -100,15 +97,14 @@ export const createActions = (store, basePath = '') => {
      *  Sets the value at path of the state object. If a portion of path doesn't exist, it's created. https://lodash.com/docs/4.17.21#set
     */
     set: (...args) => {
-      let _path = ''
+      let _path
       let [payload] = args
       if (args.length > 1) [_path, payload] = args
-
       const path = join(_basePath, _path)
       store.dispatch({
         type: `Set ${stringify(path)}`,
-        payload,
         path,
+        payload,
         method: SET
       })
     },
@@ -116,7 +112,7 @@ export const createActions = (store, basePath = '') => {
      *  This method is like set except that accepts updater to produce the value to set. https://lodash.com/docs/4.17.21#update
     */
     update: (...args) => {
-      let _path = ''
+      let _path
       let [payload] = args
       if (args.length > 1) [_path, payload] = args
       const path = join(_basePath, _path)
@@ -133,7 +129,11 @@ export const createActions = (store, basePath = '') => {
     unset: (...args) => {
       const [_path] = args
       const path = join(_basePath, _path)
-      store.dispatch({ type: `Unset ${stringify(path)}`, path, method: UNSET })
+      store.dispatch({ 
+        type: `Unset ${stringify(path)}`, 
+        path, 
+        method: UNSET 
+      })
     },
     /**
      *  Creates new actions module with a base path
