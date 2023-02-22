@@ -27,44 +27,8 @@ const UPDATE = "@@UPDATE";
 const UNSET = "@@UNSET";
 
 
-export const reducer = (state = EMPTY_OBJECT, action) => {
-  const { path, method, payload } = action
-  switch (method) {
-    case SET: {
-      if (isNil(path)) return payload
-      return setWith(Object, path, payload, state)
-    }
-    case UPDATE: {
-      if (isNil(payload)) return state
-      if (isNil(path)) {
-        if (isFunction(payload)) return payload(state)
-        if (isPlainObject(state) && isPlainObject(payload)) {
-          return { ...state, ...payload }
-        }
-        return payload
-      } else {
-        if (isFunction(payload)) return updateWith(Object, path, payload, state)
-        return updateWith(Object, path, (value) => {
-          if (isPlainObject(value) && isPlainObject(payload)) {
-            return { ...value, ...payload }
-          } else {
-            return payload
-          }
-        }, state)
-      }
-    }
-    case UNSET: {
-      if (isNil(path)) return EMPTY_OBJECT
-      return unset(path, state);
-    }
-    default: return state;
-  }
-};
 
-
-export const createStore = legacy_createStore
-
-
+export const createStore = (middleware) => legacy_createStore(reducer, EMPTY_OBJECT, middleware)
 export const createActions = (store, basePath) => {
   const _basePath = basePath
   const actions = {
@@ -129,6 +93,42 @@ export const createActions = (store, basePath) => {
 
   return actions
 }
+
+
+const reducer = (state = EMPTY_OBJECT, action) => {
+  const { path, method, payload } = action
+  switch (method) {
+    case SET: {
+      if (isNil(path)) return payload
+      return setWith(Object, path, payload, state)
+    }
+    case UPDATE: {
+      if (isNil(payload)) return state
+      if (isNil(path)) {
+        if (isFunction(payload)) return payload(state)
+        if (isPlainObject(state) && isPlainObject(payload)) {
+          return { ...state, ...payload }
+        }
+        return payload
+      } else {
+        if (isFunction(payload)) return updateWith(Object, path, payload, state)
+        return updateWith(Object, path, (value) => {
+          if (isPlainObject(value) && isPlainObject(payload)) {
+            return { ...value, ...payload }
+          } else {
+            return payload
+          }
+        }, state)
+      }
+    }
+    case UNSET: {
+      if (isNil(path)) return EMPTY_OBJECT
+      return unset(path, state);
+    }
+    default: return state;
+  }
+};
+
 
 
 const join = (...args) => {

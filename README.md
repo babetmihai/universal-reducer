@@ -9,9 +9,9 @@ npm install -S universal-reducer
 ## Setup
 
 ```
-import { reducer, createStore, createActions } from 'universal-reducer'
+import { createStore, createActions } from 'universal-reducer'
 
-const store = createStore(reducer)
+const store = createStore()
 export const actions = createActions(store)
 
 export default store
@@ -222,9 +222,9 @@ This implementation uses `react-redux` under the hood. https://react-redux.js.or
 `store.js`
 
 ```
-import { reducer, createActions, createStore } from 'universal-reducer'
+import { createActions, createStore } from 'universal-reducer'
 
-const store = createStore(reducer)
+const store = createStore()
 export const actions = createActions(store)
 export default store
 ```
